@@ -3,6 +3,7 @@ name: ELDRON Deploy
 on:
   push:
     branches: [main, staging]
+  workflow_dispatch:
 
 concurrency:
   group: eldron-deploy-${{ github.ref }}

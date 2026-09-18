@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-const DIR = "/sc-data/convex";
+const DIR = `${process.env.SC_DATA_DIR ?? "/sc-data"}/convex`;
 
 export type Row = Record<string, any> & { _id: string; _creationTime: number };
 

@@ -10,7 +10,8 @@ SentryCommand-Anbindung. Lizenz: AGPL-3.0 wie das Original – die Oberfläche v
   dazu rclone (S3-Bucket read-only + lokale XMP-Sidecars), `ffprobe-shim.sh` und `sc/`.
 - `sc/bridge.ts` – `/sc-api` (Flugspuren, Fotomosaik) hinter dem internen Caddy.
 - `sc/loop.sh` – alle `SC_SYNC_INTERVAL` Sekunden `export.ts` (Convex + Clerk → `/sc-data`) und `sync.ts`
-  (Alben je Einsatz, Crew, Positionen, Flugspuren). Eine Org je Stufe (`SC_ORG_ID`).
+  (Alben je Einsatz, Crew, Positionen, Flugspuren) – für jede Org der Clerk-Instanz
+  (oder nur `SC_ORG_IDS`), Daten je Org unter `/sc-data/orgs/<org>`.
 - `e2e/run.sh` – Abnahme mit playwright-cli gegen eine laufende Stufe.
 
 ## Branches und Server

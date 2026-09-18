@@ -5,20 +5,23 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 const IMMICH = process.env.IMMICH_INTERNAL_URL ?? "http://localhost:2283";
 const PORT = Number(process.env.SC_BRIDGE_PORT ?? 2284);
 const TILES = (process.env.PHOTOMOSAIC_TILE_URL ?? "").replace(/\/+$/, "");
-const ORG = process.env.SC_ORG_ID ?? "";
 const MOSAIC_TILE = /^\/sc-api\/mosaics\/(op-[a-z0-9]+)\/tiles\/(\d+)\/(\d+)\/(\d+)\.webp(\?t=\d+)?$/;
 const ID = /^\/sc-api\/telemetry\/([0-9a-f-]{36})$/;
 
 type Track = { assetId: string; start: number; end: number; points: Array<{ lat: number; lng: number }> };
+
+const ORGS_DIR = "/sc-data/orgs";
+const trackDirs = () =>
+	existsSync(ORGS_DIR) ? readdirSync(ORGS_DIR).map((org) => `${ORGS_DIR}/${org}/tracks`).filter((dir) => existsSync(dir)) : [];
 
 // Übersicht aller Flugspuren, deren Video der Aufrufer auf seiner Karte sehen darf.
 async function listTracks(headers: Record<string, string>) {
 	const markers = await fetch(`${IMMICH}/api/map/markers?withPartners=true&withSharedAlbums=true`, { headers });
 	if (!markers.ok) return null;
 	const visible = new Set(((await markers.json()) as Array<{ id: string }>).map((m) => m.id));
-	return readdirSync("/sc-data/tracks")
-		.filter((file) => visible.has(file.replace(".json", "")))
-		.map((file) => JSON.parse(readFileSync(`/sc-data/tracks/${file}`, "utf8")) as Track)
+	return trackDirs()
+		.flatMap((dir) => readdirSync(dir).filter((file) => visible.has(file.replace(".json", ""))).map((file) => `${dir}/${file}`))
+		.map((file) => JSON.parse(readFileSync(file, "utf8")) as Track)
 		.map((t) => ({ assetId: t.assetId, start: t.start, end: t.end, lat: t.points[0].lat, lng: t.points[0].lng }))
 		.sort((a, b) => b.start - a.start);
 }
@@ -53,7 +56,7 @@ async function loadMosaics(headers: Record<string, string>): Promise<Mosaic[] | 
 	if (!allowed) return null;
 	const sessions = (await (await fetch(`${TILES}/sessions`)).json()) as MosaicSession[];
 	return sessions
-		.filter((s) => s.org_id === ORG && s.min_lat != null && allowed.has(s.operation_id))
+		.filter((s) => s.min_lat != null && allowed.has(s.operation_id))
 		.map((s) => ({ id: s.id, operationId: s.operation_id, bounds: [s.min_lng, s.min_lat, s.max_lng, s.max_lat], updatedAt: s.updated_at }));
 }
 
@@ -97,8 +100,8 @@ createServer(async (req, res) => {
 		return;
 	}
 	const access = await fetch(`${IMMICH}/api/assets/${match[1]}`, { headers }).catch(() => null);
-	const file = `/sc-data/tracks/${match[1]}.json`;
-	if (!access?.ok || !existsSync(file)) {
+	const file = trackDirs().map((dir) => `${dir}/${match[1]}.json`).find((f) => existsSync(f));
+	if (!access?.ok || !file) {
 		res.writeHead(access?.status === 401 ? 401 : 404).end();
 		return;
 	}

@@ -1,4 +1,4 @@
-// Holt Convex-, Clerk- und App-Upload-Daten einer Org in ./sc-data (Host-seitig, nur lesend).
+// Holt Convex-, Clerk- und App-Upload-Daten einer Org nach SC_DATA_DIR (nur lesend).
 // node --env-file=eldron/.env eldron/sc/export.ts
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
@@ -6,7 +6,7 @@ import { join } from "node:path";
 
 const ORG = process.env.SC_ORG_ID!;
 const REPO = process.env.SC_REPO ?? "/opt/convex-cli";
-const OUT = new URL("../sc-data/", import.meta.url).pathname;
+const OUT = process.env.SC_DATA_DIR ?? new URL("../sc-data/", import.meta.url).pathname;
 const TABLES = [
 	"operations",
 	"media_items",
@@ -92,7 +92,7 @@ async function downloadAppUploads(media: Row[]) {
 			const rel = join("uploads", ORG, `${safe}_${summary._id}${extension(res.headers.get("content-type"), summary.name)}`);
 			const target = join(OUT, rel);
 			if (!existsSync(target)) writeFileSync(target, Buffer.from(await res.arrayBuffer()));
-			uploads.push({ media_id: summary._id, path: `/sc-data/${rel}` });
+			uploads.push({ media_id: summary._id, path: join(OUT, rel) });
 		}
 	}
 	writeFileSync(join(OUT, "convex", "uploads.json"), JSON.stringify(uploads));

@@ -8,11 +8,12 @@ import { crewEmail, crewParticipates, load, operationAt, operationCenter, type M
 import { buildTrack, droneForVideo, recordingWindow } from "./lib/tracks.ts";
 import { listSessions, renderMosaic, writeSidecar } from "./lib/mosaic.ts";
 
-const ORG = (JSON.parse(readFileSync("/sc-data/convex/meta.json", "utf8")) as { org_id: string }).org_id;
+const DATA = process.env.SC_DATA_DIR ?? "/sc-data";
+const ORG = (JSON.parse(readFileSync(`${DATA}/convex/meta.json`, "utf8")) as { org_id: string }).org_id;
 const ORG_NAME = process.env.SC_ORG_NAME ?? "Feuerwehr";
-const STATE_FILE = "/sc-data/state.json";
+const STATE_FILE = `${DATA}/state.json`;
 const S3_ROOT = `/mnt/s3/${ORG}`;
-const UPLOAD_ROOT = `/sc-data/uploads/${ORG}`;
+const UPLOAD_ROOT = `${DATA}/uploads/${ORG}`;
 
 type User = { id: string; email: string };
 type State = { orgUser?: { id: string; key: string } };
@@ -103,8 +104,8 @@ log(`${assets.length} Assets in den Bibliotheken`);
 const operations = load("operations").filter((o) => !o.merged_into_id);
 const media = load("media_items").filter((m) => !m.deleted_at);
 const crew = load("crew");
-const members = JSON.parse(readFileSync("/sc-data/convex/members.json", "utf8")) as Member[];
-const uploads = JSON.parse(readFileSync("/sc-data/convex/uploads.json", "utf8")) as Array<{ media_id: string; path: string }>;
+const members = JSON.parse(readFileSync(`${DATA}/convex/members.json`, "utf8")) as Member[];
+const uploads = JSON.parse(readFileSync(`${DATA}/convex/uploads.json`, "utf8")) as Array<{ media_id: string; path: string }>;
 const operationDrones = load("operation_drones");
 const telemetry = load("drone_telemetry");
 const [drones, streamKeys, bindings, streamSessions] = [load("drones"), load("stream_keys"), load("dji_device_bindings"), load("stream_sessions")];
@@ -116,7 +117,7 @@ function assetForMedia(item: (typeof media)[number]): Asset | undefined {
 }
 
 // Flugspuren + Positionen (alte Spurdateien weg, damit nichts Verwaistes liegen bleibt)
-for (const file of readdirSync("/sc-data/tracks")) rmSync(`/sc-data/tracks/${file}`);
+for (const file of readdirSync(`${DATA}/tracks`)) rmSync(`${DATA}/tracks/${file}`);
 let tracks = 0;
 let located = 0;
 const unlocated: string[] = [];
@@ -138,7 +139,7 @@ for (const asset of assets) {
 		}
 		const points = buildTrack(droneForVideo(asset.originalPath, ORG, drones, streamKeys, bindings), ORG, start - 15_000, end + 15_000, telemetry);
 		if (points.length >= 2) {
-			writeFileSync(`/sc-data/tracks/${asset.id}.json`, JSON.stringify({ assetId: asset.id, start, end, anchor, points }));
+			writeFileSync(`${DATA}/tracks/${asset.id}.json`, JSON.stringify({ assetId: asset.id, start, end, anchor, points }));
 			tracks++;
 			position = { lat: points[0].lat, lng: points[0].lng };
 		}
@@ -206,4 +207,4 @@ for (const op of operations) {
 }
 log(`${albumCount} Einsatz-Alben abgeglichen`);
 
-writeFileSync("/sc-data/sync-report.json", JSON.stringify({ assets: assets.length, tracks, located, unlocated, albums: albumCount, at: Date.now() }, null, 2));
+writeFileSync(`${DATA}/sync-report.json`, JSON.stringify({ assets: assets.length, tracks, located, unlocated, albums: albumCount, at: Date.now() }, null, 2));
