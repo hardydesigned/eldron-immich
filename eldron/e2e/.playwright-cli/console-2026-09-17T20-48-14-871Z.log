@@ -1,0 +1,245 @@
+[    7376ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[  950950ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  951005ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  953642ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  953643ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  956155ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  956163ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  961736ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  961740ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  967332ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  967335ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  973878ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  973887ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  979781ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  979785ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  985125ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  985127ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  990415ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  990417ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  995830ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[  995840ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1001124ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1001132ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1006373ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1006395ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1011990ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1012011ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1018096ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1018100ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1023960ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1023964ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1033972ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1033990ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1040896ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1040905ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1050570ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1050605ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1059166ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1059206ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1067075ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1067149ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1072629ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1072629ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1077719ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1077720ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1082955ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1082957ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1088379ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1088381ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1094007ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1094016ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1099471ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1099489ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1104790ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1104798ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1109903ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1109905ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1115029ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1115029ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1120473ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1120480ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1127375ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1127389ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1132817ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1132828ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1138413ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1138432ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1143913ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1143928ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1151054ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1151082ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1159676ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1159685ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1166273ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1166311ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1176315ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1176359ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1185183ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1185200ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1194142ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1194214ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1205888ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1205983ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1214540ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1214589ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1221560ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1221572ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1230006ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1230198ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1240822ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1240851ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1252440ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1252540ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1262033ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1262034ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1268424ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1268459ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1278460ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1278480ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1285307ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1285309ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1293886ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1293904ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1301596ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1301607ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1308953ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1308965ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1314388ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1314389ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1319739ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1319742ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1325294ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1325299ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1330486ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1330492ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1335796ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1335812ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1340964ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1340964ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1346158ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1346167ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1351612ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0
+[ 1351629ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/BssuKVY9.js:0

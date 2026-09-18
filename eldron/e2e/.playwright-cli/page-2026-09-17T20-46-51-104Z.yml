@@ -1,0 +1,23 @@
+- generic [ref=e3]:
+  - img "Immich logo" [ref=e5]
+  - generic [ref=e8]:
+    - generic [ref=e10]:
+      - img "Immich logo" [ref=e11]
+      - heading "Anmelden" [level=1] [ref=e12]
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - generic [ref=e19]: E-Mail
+            - text: "*"
+          - textbox "E-Mail" [ref=e21]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]: Passwort
+            - text: "*"
+          - textbox "Passwort" [ref=e27]
+        - button "Anmelden" [ref=e28] [cursor=pointer]
+      - generic [ref=e29]:
+        - separator [ref=e30]
+        - generic [ref=e31]: oder
+      - button "Login with OAuth" [ref=e32] [cursor=pointer]

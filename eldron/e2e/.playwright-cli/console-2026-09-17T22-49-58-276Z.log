@@ -1,0 +1,13 @@
+[    4411ms] [ERROR]  Note that 'script-src' was not explicitly set, so 'default-src' is used as a fallback. @ https://internal-rodent-89.accounts.dev/_next/static/chunks/pages/_app-aa1762686ea52c08.js?dpl=dpl_8Yk9mFr6KgYEb725UoWw7jkCV6hF:18
+[    4627ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://internal-rodent-89.accounts.dev/_next/static/chunks/pages/_app-aa1762686ea52c08.js?dpl=dpl_8Yk9mFr6KgYEb725UoWw7jkCV6hF:14
+[    6072ms] [WARNING] using deprecated parameters for `initSync()`; pass a single object instead @ http://localhost:2283/_app/immutable/chunks/DacTszOn.js:0
+[    8013ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    8462ms] [WARNING] Image "arrow" could not be loaded. Please make sure you have added the image before it is needed with map.addImage(), resolved it with map.setMissingStyleImageResolver(), or included it in a "sprite" property in your style. @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[  175852ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:0
+[  175852ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:0
+[  177455ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:0
+[  177455ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/sNnUYkEy.js:0

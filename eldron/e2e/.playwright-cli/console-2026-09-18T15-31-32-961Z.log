@@ -1,0 +1,9 @@
+[     228ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    8592ms] [WARNING] Image "capital" could not be loaded. Please make sure you have added the image before it is needed with map.addImage(), resolved it with map.setMissingStyleImageResolver(), or included it in a "sprite" property in your style. @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    9204ms] Error
+[   13592ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/17/68015/43786.webp:0
+[   32175ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[   32511ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/17/68015/43786.webp:0
+[   65690ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/19/272057/175149.webp:0
+[   65701ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/19/272057/175150.webp:0
+[   65764ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/19/272057/175148.webp:0

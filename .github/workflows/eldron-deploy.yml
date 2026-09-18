@@ -1,0 +1,61 @@
+name: ELDRON Deploy
+
+on:
+  push:
+    branches: [main, staging]
+
+concurrency:
+  group: eldron-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'staging' && 'staging' || 'prod' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compose-Config validieren
+        working-directory: eldron
+        run: |
+          sed -e 's/<prod|staging>/staging/' -e 's/<2290|2291>/2291/' -e 's/<[^>]*>/ci/g' env.template > .env
+          docker compose config -q
+
+      - name: Ins Tailnet einhängen
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          command_timeout: 45m
+          script: |
+            set -e
+            DISK_USAGE=$(df -P / | awk 'NR == 2 { gsub("%", "", $5); print $5 }')
+            if [ "$DISK_USAGE" -ge 90 ]; then
+              echo "Server-Platte ist zu ${DISK_USAGE}% belegt. Deploy abgebrochen." >&2
+              exit 1
+            fi
+
+            BRANCH="${{ github.ref_name }}"
+            if [ "$BRANCH" = "staging" ]; then STAGE=staging; else STAGE=prod; fi
+            TARGET="/root/eldron-immich-$STAGE"
+            [ -d "$TARGET/.git" ] || { echo "$TARGET ist kein Git-Checkout" >&2; exit 1; }
+            cd "$TARGET"
+
+            if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+              echo "Lokale Änderungen in $TARGET — Deploy abgebrochen:" >&2
+              git status --short
+              exit 1
+            fi
+
+            git fetch origin "$BRANCH"
+            git reset --hard "origin/$BRANCH"
+            test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+
+            eldron/deploy.sh "$STAGE"

@@ -50,6 +50,7 @@
     ScaleControl,
   } from 'svelte-maplibre';
   import type { SelectionBBox } from './types';
+  import type { TimeRange } from './sc/types';
 
   interface Props {
     mapMarkers?: MapMarkerResponseDto[];
@@ -71,6 +72,8 @@
     rounded?: boolean;
     showSimpleControls?: boolean;
     autoFitBounds?: boolean;
+    timeRange?: TimeRange;
+    onMapLoad?: (map: Map) => void;
   }
 
   let {
@@ -93,6 +96,8 @@
     rounded = false,
     showSimpleControls = true,
     autoFitBounds = true,
+    timeRange = undefined,
+    onMapLoad = undefined,
   }: Props = $props();
 
   // Calculate initial bounds from markers once during initialization
@@ -238,7 +243,9 @@
     abortController = new AbortController();
 
     const { includeArchived, onlyFavorites, withPartners, withSharedAlbums } = $mapSettings;
-    const { fileCreatedAfter, fileCreatedBefore } = getFileCreatedDates();
+    const settingsRange = getFileCreatedDates();
+    const fileCreatedAfter = timeRange?.after ?? settingsRange.fileCreatedAfter;
+    const fileCreatedBefore = timeRange?.before ?? settingsRange.fileCreatedBefore;
 
     return await getMapMarkers(
       {
@@ -246,8 +253,8 @@
         isFavorite: onlyFavorites || undefined,
         fileCreatedAfter,
         fileCreatedBefore,
-        withPartners: withPartners || undefined,
-        withSharedAlbums: withSharedAlbums || undefined,
+        withPartners: withPartners || timeRange !== undefined || undefined,
+        withSharedAlbums: withSharedAlbums || timeRange !== undefined || undefined,
       },
       {
         signal: abortController.signal,
@@ -298,6 +305,16 @@
 
   onDestroy(() => {
     abortController?.abort();
+  });
+
+  let lastTimeRange = timeRange;
+  $effect(() => {
+    const next = timeRange;
+    if (isEqual(next, lastTimeRange)) {
+      return;
+    }
+    lastTimeRange = next;
+    untrack(() => handlePromiseError(loadMapMarkers().then((markers) => (mapMarkers = markers))));
   });
 
   $effect(() => {
@@ -389,6 +406,7 @@
       if (!simplified) {
         event.addControl(new GlobeControl(), 'top-left');
       }
+      onMapLoad?.(event);
     }}
     bind:map
   >
@@ -447,6 +465,8 @@
         >
           {#snippet children({ feature })}
             <div
+              data-testid="sc-map-cluster"
+              data-count={feature.properties?.point_count}
               class="flex size-10 items-center justify-center rounded-full bg-immich-primary font-mono font-bold text-white opacity-90 shadow-lg transition-all duration-200 hover:bg-immich-dark-primary hover:text-immich-dark-bg"
             >
               {feature.properties?.point_count?.toLocaleString()}
@@ -467,6 +487,8 @@
               <Icon icon={mdiMapMarker} size="50px" class="translate-y-[calc(5px-50%)] text-primary" />
             {:else}
               <img
+                data-testid="sc-map-marker"
+                data-asset-id={feature.properties?.id}
                 src={getAssetMediaUrl({ id: feature.properties?.id })}
                 class="size-15 rounded-full border-2 border-immich-primary bg-immich-primary object-cover shadow-lg transition-all duration-200 hover:scale-150 hover:border-immich-dark-primary"
                 alt={feature.properties?.city && feature.properties.country

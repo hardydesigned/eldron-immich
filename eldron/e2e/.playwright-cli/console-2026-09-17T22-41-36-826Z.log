@@ -1,0 +1,2 @@
+[     168ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    7683ms] [WARNING] Image "arrow" could not be loaded. Please make sure you have added the image before it is needed with map.addImage(), resolved it with map.setMissingStyleImageResolver(), or included it in a "sprite" property in your style. @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0

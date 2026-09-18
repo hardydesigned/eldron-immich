@@ -1,0 +1,5 @@
+[     921ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    6449ms] [WARNING] Image "capital" could not be loaded. Please make sure you have added the image before it is needed with map.addImage(), resolved it with map.setMissingStyleImageResolver(), or included it in a "sprite" property in your style. @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    7107ms] Error
+[   11334ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/17/68015/43786.webp:0
+[   34758ms] [WARNING] using deprecated parameters for `initSync()`; pass a single object instead @ http://localhost:2283/_app/immutable/chunks/BJDGG87X.js:0

@@ -1,0 +1,8 @@
+:2283 {
+	handle /sc-api/* {
+		reverse_proxy immich-server:2284
+	}
+	handle {
+		reverse_proxy immich-server:2283
+	}
+}

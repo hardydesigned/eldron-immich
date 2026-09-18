@@ -1,0 +1,116 @@
+[    4322ms] [ERROR]  Note that 'script-src' was not explicitly set, so 'default-src' is used as a fallback. @ https://internal-rodent-89.accounts.dev/_next/static/chunks/pages/_app-aa1762686ea52c08.js?dpl=dpl_8Yk9mFr6KgYEb725UoWw7jkCV6hF:18
+[    4539ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://internal-rodent-89.accounts.dev/_next/static/chunks/pages/_app-aa1762686ea52c08.js?dpl=dpl_8Yk9mFr6KgYEb725UoWw7jkCV6hF:14
+[    7355ms] [ERROR] [handleError]: TypeError: Failed to fetch TypeError: Failed to fetch
+    at window.fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:1437)
+    at ie (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:2005)
+    at Tt (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14968)
+    at fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14471)
+    at http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:46062
+    at a (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1866)
+    at t (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1247)
+    at Object.n [as fetchJson] (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1451)
+    at Dt (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:15017)
+    at Object.refresh (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:42131) TypeError: Failed to fetch
+    at window.fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:1437)
+    at ie (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:2005)
+    at Tt (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14968)
+    at fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14471)
+    at http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:46062
+    at a (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1866)
+    at t (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1247)
+    at Object.n [as fetchJson] (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1451)
+    at Dt (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:15017)
+    at Object.refresh (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:42131) @ http://localhost:2283/_app/immutable/chunks/BDEVjRCM.js:0
+[    7358ms] [ERROR] [handleError]: TypeError: Failed to fetch TypeError: Failed to fetch
+    at window.fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:1437)
+    at ie (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:2005)
+    at Tt (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14968)
+    at fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14471)
+    at http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:46062
+    at a (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1866)
+    at t (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1247)
+    at Object.n [as fetchJson] (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1451)
+    at Dt (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:15017)
+    at Object.refresh (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:42131) TypeError: Failed to fetch
+    at window.fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:1437)
+    at ie (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:2005)
+    at Tt (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14968)
+    at fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14471)
+    at http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:46062
+    at a (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1866)
+    at t (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1247)
+    at Object.n [as fetchJson] (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1451)
+    at Dt (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:15017)
+    at Object.refresh (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:42131) @ http://localhost:2283/_app/immutable/chunks/BDEVjRCM.js:0
+[    7359ms] [ERROR] [handleError]: TypeError: Failed to fetch TypeError: Failed to fetch
+    at window.fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:1437)
+    at ie (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:2005)
+    at Tt (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14968)
+    at fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14471)
+    at http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:46062
+    at a (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1866)
+    at t (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1247)
+    at Object.n [as fetchJson] (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1451)
+    at le (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:6278)
+    at y (http://localhost:2283/_app/immutable/chunks/DFFjtN_E.js:1:2738) TypeError: Failed to fetch
+    at window.fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:1437)
+    at ie (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:2005)
+    at Tt (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14968)
+    at fetch (http://localhost:2283/_app/immutable/chunks/O8iMplps.js:1:14471)
+    at http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:46062
+    at a (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1866)
+    at t (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1247)
+    at Object.n [as fetchJson] (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:1451)
+    at le (http://localhost:2283/_app/immutable/chunks/Cp98Sc-4.js:1:6278)
+    at y (http://localhost:2283/_app/immutable/chunks/DFFjtN_E.js:1:2738) @ http://localhost:2283/_app/immutable/chunks/BDEVjRCM.js:0
+[    8176ms] [WARNING] The maxzoom value "18" is expected to be greater than the clusterMaxZoom value "18". @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[    9687ms] [WARNING] Image "capital" could not be loaded. Please make sure you have added the image before it is needed with map.addImage(), resolved it with map.setMissingStyleImageResolver(), or included it in a "sprite" property in your style. @ http://localhost:2283/_app/immutable/chunks/DTZDEqrh.js:0
+[   10080ms] Error
+[   37074ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/18/136030/87573.webp:0
+[   37074ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/18/136026/87575.webp:0
+[   37143ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/18/136026/87576.webp:0
+[   37161ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:2283/sc-api/mosaics/op-n57av8jx33x46gxxkn7wsejprd8ebe19/tiles/17/68015/43786.webp:0
+[  575971ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  575975ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  577760ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  577761ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  581619ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  581620ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  586644ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  586644ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  591671ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  591671ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  596743ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  596743ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  601803ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  601804ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  606866ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  606866ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  611970ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  611970ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  617066ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  617066ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  622228ms] [ERROR] WebSocket connection to 'ws://localhost:2283/api/socket.io/?EIO=4&transport=websocket' failed: Error during WebSocket handshake: Unexpected response code: 502 @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0
+[  622228ms] [LOG] Websocket Connect Error Oe: websocket error
+    at websocket.onError (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:6686)
+    at ws.onerror (http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:1:12775) @ http://localhost:2283/_app/immutable/chunks/B-MKVIO9.js:0

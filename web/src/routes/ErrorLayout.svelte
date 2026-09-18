@@ -1,18 +1,7 @@
 <script lang="ts">
+  import ScLogo from '$lib/components/ScLogo.svelte';
   import { copyToClipboard } from '$lib/utils';
-  import {
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    Icon,
-    IconButton,
-    Link,
-    Logo,
-    Text,
-    VStack,
-  } from '@immich/ui';
+  import { Card, CardBody, CardFooter, CardHeader, CardTitle, Icon, IconButton, Link, Text, VStack } from '@immich/ui';
   import { mdiAlarmLight, mdiCodeTags, mdiContentCopy, mdiMessage, mdiPartyPopper } from '@mdi/js';
   import { t } from 'svelte-i18n';
 
@@ -35,7 +24,7 @@
   <section>
     <div class="flex place-items-center border-b px-6 py-4 dark:border-b-immich-dark-gray">
       <Link href="/photos">
-        <Logo variant="inline" />
+        <ScLogo variant="inline" />
       </Link>
     </div>
   </section>

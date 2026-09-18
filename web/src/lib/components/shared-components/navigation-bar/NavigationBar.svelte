@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts">
+  import ScLogo from '$lib/components/ScLogo.svelte';
   import { page } from '$app/state';
   import { clickOutside } from '$lib/actions/click-outside';
   import NotificationPanel from '$lib/components/shared-components/navigation-bar/NotificationPanel.svelte';
@@ -15,7 +16,7 @@
   import { mediaQueryManager } from '$lib/stores/media-query-manager.svelte';
   import { notificationManager } from '$lib/stores/notification-manager.svelte';
   import { sidebarStore } from '$lib/stores/sidebar.svelte';
-  import { ActionButton, Button, IconButton, Logo } from '@immich/ui';
+  import { ActionButton, Button, IconButton } from '@immich/ui';
   import { mdiBellBadge, mdiBellOutline, mdiMagnify, mdiMenu, mdiTrayArrowUp } from '@mdi/js';
   import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
@@ -77,7 +78,7 @@
         class="sidebar:hidden"
       />
       <a data-sveltekit-preload-data="hover" href={Route.photos()}>
-        <Logo variant={mediaQueryManager.isFullSidebar ? 'inline' : 'icon'} class="max-md:h-12" />
+        <ScLogo variant={mediaQueryManager.isFullSidebar ? 'inline' : 'icon'} class="max-md:h-12" />
       </a>
     </div>
     <div class="flex justify-between gap-4 pe-6 lg:gap-8">
