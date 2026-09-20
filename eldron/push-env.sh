@@ -13,8 +13,11 @@ KEYS=(HETZNER_BUCKET HETZNER_S3_ENDPOINT HETZNER_S3_REGION HETZNER_S3_ACCESS_KEY
 
 [ -f "$SC_ENV" ] || { echo "$SC_ENV nicht gefunden" >&2; exit 1; }
 
+# `tr -d` entfernt das CR aus .env-Dateien mit Windows-Zeilenenden, sonst landet es im Wert.
+# `|| true` ist nötig, weil ein erfolgloses grep mit `set -euo pipefail` sonst das
+# ganze Skript beendet — und zwar ohne ein Wort, weil der Aufruf in einer ||-Liste steht.
 from_file() {
-  grep -E "^$1=" "$SC_ENV" | tail -1 | cut -d= -f2- | sed -E 's/[[:space:]]+#.*$//; s/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/'
+  grep -E "^$1=" "$SC_ENV" | tail -1 | cut -d= -f2- | tr -d '\r' | sed -E 's/[[:space:]]+#.*$//; s/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/' || true
 }
 
 # Zwei Werte heißen in der SentryCommand-.env anders.
