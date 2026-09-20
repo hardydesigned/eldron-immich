@@ -17,10 +17,22 @@ from_file() {
   grep -E "^$1=" "$SC_ENV" | tail -1 | cut -d= -f2- | sed -E 's/[[:space:]]+#.*$//; s/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/'
 }
 
+# Zwei Werte heißen in der SentryCommand-.env anders.
+alias_of() {
+  case "$1" in
+    CONVEX_URL) echo NEXT_PUBLIC_CONVEX_URL ;;
+    SC_CONVEX_SITE_URL) echo NEXT_PUBLIC_CONVEX_SITE_URL ;;
+  esac
+}
+
 BLOCK=""
 for key in "${KEYS[@]}"; do
   value="${!key:-}"
   [ -n "$value" ] || value="$(from_file "$key")"
+  if [ -z "$value" ]; then
+    other="$(alias_of "$key")"
+    [ -z "$other" ] || value="$(from_file "$other")"
+  fi
   if [ -z "$value" ] && [ "$key" = IMMICH_ADMIN_EMAIL ]; then value="admin@eldron.local"; fi
   if [ -z "$value" ]; then
     # Ohne Terminal (z. B. aus einem Agenten heraus) lässt sich nichts abfragen –
