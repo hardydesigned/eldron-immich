@@ -16,6 +16,7 @@
   import { mediaQueryManager } from '$lib/stores/media-query-manager.svelte';
   import { notificationManager } from '$lib/stores/notification-manager.svelte';
   import { sidebarStore } from '$lib/stores/sidebar.svelte';
+  import { scReturnUrl } from '$lib/utils/sc-return';
   import { ActionButton, Button, IconButton } from '@immich/ui';
   import { mdiBellBadge, mdiBellOutline, mdiMagnify, mdiMenu, mdiTrayArrowUp } from '@mdi/js';
   import { onMount } from 'svelte';
@@ -35,9 +36,11 @@
   let shouldShowAccountInfoPanel = $state(false);
   let shouldShowNotificationPanel = $state(false);
   let innerWidth: number = $state(0);
+  let scReturn: string | null = $state(null);
   const hasUnreadNotifications = $derived(notificationManager.notifications.length > 0);
 
   onMount(async () => {
+    scReturn = scReturnUrl();
     try {
       await notificationManager.refresh();
     } catch (error) {
@@ -77,7 +80,12 @@
         }}
         class="sidebar:hidden"
       />
-      <a data-sveltekit-preload-data="hover" href={Route.photos()}>
+      <a
+        data-sveltekit-preload-data="hover"
+        href={scReturn ?? Route.photos()}
+        title={scReturn ? 'Zurück zu SentryCommand' : undefined}
+        data-testid="eldron-home-link"
+      >
         <ScLogo variant={mediaQueryManager.isFullSidebar ? 'inline' : 'icon'} class="max-md:h-12" />
       </a>
     </div>

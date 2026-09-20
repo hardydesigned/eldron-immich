@@ -17,6 +17,7 @@
   import { sidebarStore } from '$lib/stores/sidebar.svelte';
   import { closeWebsocketConnection, openWebsocketConnection, websocketStore } from '$lib/stores/websocket';
   import { maintenanceShouldRedirect } from '$lib/utils/maintenance';
+  import { rememberScReturn } from '$lib/utils/sc-return';
   import { getServerConfig } from '@immich/sdk';
   import {
     CommandPaletteProvider,
@@ -170,6 +171,7 @@
   toastManager.setOptions({ class: 'top-16 fixed' });
 
   onMount(() => {
+    rememberScReturn(page.url);
     const element = document.querySelector('#stencil');
     element?.remove();
     // if the browser theme changes, changes the Immich theme too

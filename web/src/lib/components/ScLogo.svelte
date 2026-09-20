@@ -13,6 +13,6 @@
 <span class="inline-flex items-center gap-2 {className}" data-testid="eldron-logo">
   <img src="/eldron-logo.png" alt="ELDRON" class="{heights[size]} w-auto object-contain" />
   {#if variant !== 'icon'}
-    <span class="text-2xl font-semibold tracking-wide text-primary">ELDRON</span>
+    <span class="text-lg font-semibold tracking-wide text-primary">ELDRON</span>
   {/if}
 </span>
