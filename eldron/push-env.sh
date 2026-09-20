@@ -5,7 +5,8 @@
 set -euo pipefail
 
 STAGE="${1:?Aufruf: push-env.sh <staging|prod> [sc-env-datei]}"
-SC_ENV="${2:-$(cd "$(dirname "$0")/../.." && pwd)/sentrycommand/.env}"
+# Der Fork liegt als Submodul unter external/immich – die SC-.env also drei Ebenen höher.
+SC_ENV="${2:-$(cd "$(dirname "$0")/../../.." && pwd)/.env}"
 HOST="${ELDRON_SSH_HOST:-hetzner_eldron}"
 TARGET="/root/eldron-immich-$STAGE/eldron/.env"
 KEYS=(HETZNER_BUCKET HETZNER_S3_ENDPOINT HETZNER_S3_REGION HETZNER_S3_ACCESS_KEY HETZNER_S3_SECRET_KEY CLERK_SECRET_KEY CONVEX_DEPLOY_KEY IMMICH_SERVICE_SECRET SC_CONVEX_SITE_URL IMMICH_ADMIN_EMAIL)
@@ -22,6 +23,13 @@ for key in "${KEYS[@]}"; do
   [ -n "$value" ] || value="$(from_file "$key")"
   if [ -z "$value" ] && [ "$key" = IMMICH_ADMIN_EMAIL ]; then value="admin@eldron.local"; fi
   if [ -z "$value" ]; then
+    # Ohne Terminal (z. B. aus einem Agenten heraus) lässt sich nichts abfragen –
+    # dann lieber laut abbrechen als stumm aussteigen.
+    if ! { : </dev/tty; } 2>/dev/null; then
+      echo "$key fehlt in $SC_ENV und kann hier nicht abgefragt werden." >&2
+      echo "Voranstellen: $key=… eldron/push-env.sh $STAGE" >&2
+      exit 1
+    fi
     read -r -s -p "$key für $STAGE: " value </dev/tty
     echo >&2
   fi
