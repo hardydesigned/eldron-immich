@@ -1,7 +1,7 @@
 // Dateiteil des Abgleichs: Bibliotheken, App-Uploads, Fotomosaike, Positionen, Flugspuren.
 // Alles andere (Konten, Freigaben, Einsatz-Alben) macht SentryCommand selbst über die Immich-API.
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { api, durationMs, listLibraryAssets, login, waitForQueues, type Asset, type Auth } from "./lib/immich.ts";
 import { buildTrack, droneForVideo, recordingWindow } from "./lib/tracks.ts";
 import { listSessions, renderMosaic, writeSidecar } from "./lib/mosaic.ts";
@@ -16,19 +16,41 @@ function sql(statement: string, vars: Record<string, string>) {
 	execFileSync("psql", args, { env: { ...process.env, PGPASSWORD: process.env.DB_PASSWORD }, input: statement });
 }
 
-/** App-Uploads liegen unter ihrer Medien-Id – so findet SentryCommand sie ohne Namensabgleich wieder. */
+const CONTENT_TYPES: Record<string, string> = {
+	"image/jpeg": ".jpg",
+	"image/png": ".png",
+	"image/webp": ".webp",
+	"image/heic": ".heic",
+	"video/mp4": ".mp4",
+	"video/quicktime": ".mov",
+	"video/webm": ".webm",
+};
+
+/**
+ * App-Uploads liegen unter ihrer Medien-Id – so findet SentryCommand sie ohne
+ * Namensabgleich wieder.
+ *
+ * Die Endung muss sein: ohne sie lässt Immich die Datei beim Einlesen liegen.
+ * Trägt der Name in SentryCommand keine, entscheidet der Content-Type der
+ * Antwort; eine früher endungslos abgelegte Datei wird dabei ersetzt.
+ */
 async function downloadUploads(media: MediaFile[], uploadRoot: string): Promise<number> {
 	mkdirSync(uploadRoot, { recursive: true });
+	const present = readdirSync(uploadRoot);
 	let count = 0;
 	for (const item of media) {
 		if (item.kind !== "upload") continue;
-		const suffix = /\.[a-z0-9]{2,4}$/i.exec(item.name)?.[0] ?? "";
-		const target = `${uploadRoot}/${item.id}${suffix}`;
 		count++;
-		if (existsSync(target)) continue;
+		const withSuffix = present.find((f) => f.startsWith(`${item.id}.`) && !f.endsWith(".xmp"));
+		if (withSuffix) continue;
 		const res = await fetch(item.url);
 		if (!res.ok) continue;
-		writeFileSync(target, Buffer.from(await res.arrayBuffer()));
+		const suffix =
+			/\.[a-z0-9]{2,4}$/i.exec(item.name)?.[0] ??
+			CONTENT_TYPES[(res.headers.get("content-type") ?? "").split(";")[0].trim()] ??
+			"";
+		if (present.includes(item.id) && suffix !== "") rmSync(`${uploadRoot}/${item.id}`);
+		writeFileSync(`${uploadRoot}/${item.id}${suffix}`, Buffer.from(await res.arrayBuffer()));
 	}
 	return count;
 }
