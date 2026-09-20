@@ -1,36 +1,49 @@
 // Soll-Werte für run.sh – aus dem SentryCommand-Export und dem Immich-Bestand der Org.
 import { readFileSync, readdirSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 
 const DATA = new URL("../sc-data/", import.meta.url).pathname;
 const BASE = process.env.IMMICH_URL ?? "http://localhost:2283";
-const read = (file) => JSON.parse(readFileSync(DATA + file, "utf8"));
-// Der Schlüssel des Organisationsnutzers steht in SentryCommand, nicht mehr im Container.
-const link = JSON.parse(
-	execFileSync("npx", ["convex", "run", "immich/internal_queries:linkForOrg", JSON.stringify({ orgId: read("convex/meta.json").org_id })], {
-		cwd: process.env.SC_REPO ?? "/opt/convex-cli",
-		encoding: "utf8",
-	}).trim(),
-);
-const key = link.api_key;
+const ORG = process.env.SC_ORG_ID;
+
+// Soll-Daten und der Schlüssel des Organisationsnutzers kommen aus SentryCommand.
+const sc = await (async () => {
+	const res = await fetch(`${process.env.CONVEX_URL.replace(/\/+$/, "")}/api/query`, {
+		method: "POST",
+		headers: { "content-type": "application/json" },
+		body: JSON.stringify({
+			path: "immich/service_queries:syncData",
+			args: { org_id: ORG, service_secret: process.env.CONVEX_SERVICE_SECRET },
+			format: "json",
+		}),
+	});
+	const body = await res.json();
+	if (body.status !== "success") throw new Error(`Convex → ${body.errorMessage}`);
+	return body.value;
+})();
+const key = sc.link.api_key;
 const api = async (method, path, body) =>
 	(await fetch(`${BASE}/api${path}`, { method, headers: { "x-api-key": key, "content-type": "application/json" }, body: body && JSON.stringify(body) })).json();
 
-const participates = (op, crewId) =>
-	[op.observer_id, op.mission_commander_id, op.driver_id].includes(crewId) ||
-	(op.additional_crew ?? []).some((e) => e.crew_member_id === crewId) ||
-	(op.crew_member_ids ?? []).includes(crewId);
+const participates = (op, crewId) => op.crew_ids.includes(crewId);
+
+async function clerkMemberships() {
+	const res = await fetch(`https://api.clerk.com/v1/organizations/${ORG}/memberships?limit=100`, {
+		headers: { authorization: `Bearer ${process.env.CLERK_SECRET_KEY}` },
+	});
+	if (!res.ok) throw new Error(`Clerk → ${res.status}`);
+	return (await res.json()).data.map((m) => ({ clerk_user_id: m.public_user_data.user_id, role: m.role }));
+}
 
 async function albums() {
 	return (await api("GET", "/albums")).filter((a) => a.description.includes("[sc:"));
 }
 
 async function memberAlbums() {
-	const member = read("convex/members.json").find((m) => m.role === "org:member" && read("convex/crew.json").some((c) => c.clerk_user_id === m.clerk_user_id));
-	const crewIds = read("convex/crew.json").filter((c) => c.clerk_user_id === member.clerk_user_id).map((c) => c._id);
-	const ops = read("convex/operations.json");
+	const memberships = await clerkMemberships();
+	const member = memberships.find((m) => m.role === "org:member" && sc.crew.some((c) => c.clerk_user_id === m.clerk_user_id));
+	const crewIds = sc.crew.filter((c) => c.clerk_user_id === member.clerk_user_id).map((c) => c.id);
 	return (await albums()).filter((album) => {
-		const op = ops.find((o) => album.description.includes(`[sc:${o._id}]`));
+		const op = sc.operations.find((o) => album.description.includes(`[sc:${o.id}]`));
 		return op && crewIds.some((id) => participates(op, id));
 	});
 }
@@ -48,7 +61,6 @@ async function assets(extra) {
 
 const located = (a) => a.exifInfo?.latitude != null;
 const what = process.argv[2];
-const ORG = read("convex/meta.json").org_id;
 async function mosaicOperations() {
 	const tiles = process.env.PHOTOMOSAIC_TILE_URL.replace(/\/+$/, "");
 	const sessions = await (await fetch(`${tiles}/sessions`)).json();
@@ -60,8 +72,7 @@ else if (what === "located-assets") console.log((await assets()).filter(located)
 else if (what === "located-videos") console.log((await assets({ type: "VIDEO" })).filter(located).length);
 else if (what === "mosaic-count") console.log((await mosaicOperations()).length);
 else if (what === "member-mosaic-count") {
-	const ops = read("convex/operations.json");
-	const mine = new Set((await memberAlbums()).map((a) => ops.find((o) => a.description.includes(`[sc:${o._id}]`))?._id));
+	const mine = new Set((await memberAlbums()).map((a) => sc.operations.find((o) => a.description.includes(`[sc:${o.id}]`))?.id));
 	console.log((await mosaicOperations()).filter((id) => mine.has(id)).length);
 } else if (what === "mosaic-asset") {
 	const [first] = await assets({ originalFileName: "mosaik_" });

@@ -1,6 +1,6 @@
 #!/bin/bash
 # End-to-End-Abnahme der Immich-Anbindung mit playwright-cli.
-# Aufruf: eldron/e2e/run.sh   (Stack läuft, sc/export.ts + sc/sync.ts sind gelaufen)
+# Aufruf: eldron/e2e/run.sh   (Stack läuft, der Abgleich aus SentryCommand ist einmal durchgelaufen)
 set -uo pipefail
 cd "$(dirname "$0")"
 BASE=${IMMICH_URL:-http://localhost:2283}

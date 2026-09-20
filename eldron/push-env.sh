@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Überträgt die Zugänge aus einer SentryCommand-.env in die Immich-.env einer Stufe auf eldron-suite.
 # Aufruf: eldron/push-env.sh <staging|prod> [sc-env-datei]
-# Fehlende Werte (z. B. CONVEX_DEPLOY_KEY) werden verdeckt abgefragt oder aus gleichnamigen Umgebungsvariablen genommen.
+# Fehlende Werte (z. B. CONVEX_SERVICE_SECRET) werden verdeckt abgefragt oder aus gleichnamigen Umgebungsvariablen genommen.
 set -euo pipefail
 
 STAGE="${1:?Aufruf: push-env.sh <staging|prod> [sc-env-datei]}"
@@ -9,7 +9,7 @@ STAGE="${1:?Aufruf: push-env.sh <staging|prod> [sc-env-datei]}"
 SC_ENV="${2:-$(cd "$(dirname "$0")/../../.." && pwd)/.env}"
 HOST="${ELDRON_SSH_HOST:-hetzner_eldron}"
 TARGET="/root/eldron-immich-$STAGE/eldron/.env"
-KEYS=(HETZNER_BUCKET HETZNER_S3_ENDPOINT HETZNER_S3_REGION HETZNER_S3_ACCESS_KEY HETZNER_S3_SECRET_KEY CLERK_SECRET_KEY CONVEX_DEPLOY_KEY IMMICH_SERVICE_SECRET SC_CONVEX_SITE_URL IMMICH_ADMIN_EMAIL)
+KEYS=(HETZNER_BUCKET HETZNER_S3_ENDPOINT HETZNER_S3_REGION HETZNER_S3_ACCESS_KEY HETZNER_S3_SECRET_KEY CLERK_SECRET_KEY CONVEX_URL CONVEX_SERVICE_SECRET IMMICH_SERVICE_SECRET SC_CONVEX_SITE_URL IMMICH_ADMIN_EMAIL)
 
 [ -f "$SC_ENV" ] || { echo "$SC_ENV nicht gefunden" >&2; exit 1; }
 

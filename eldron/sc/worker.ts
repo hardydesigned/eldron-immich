@@ -2,8 +2,6 @@
 // Der Aufrufer weist sich mit dem gemeinsamen Geheimnis aus; geantwortet wird sofort,
 // gearbeitet im Hintergrund – ein Lauf je Organisation, Nachzügler werden angehängt.
 import { createServer } from "node:http";
-import { execFileSync } from "node:child_process";
-import { mkdirSync } from "node:fs";
 import { syncFiles } from "./files.ts";
 
 const PORT = Number(process.env.SC_WORKER_PORT ?? 2285);
@@ -13,14 +11,6 @@ const CONVEX = (process.env.SC_CONVEX_SITE_URL ?? "").replace(/\/+$/, "");
 const running = new Set<string>();
 const queued = new Set<string>();
 
-function exportData(orgId: string, orgName: string, dir: string) {
-	mkdirSync(dir, { recursive: true });
-	execFileSync("node", ["/sc/export.ts"], {
-		env: { ...process.env, SC_ORG_ID: orgId, SC_ORG_NAME: orgName, SC_DATA_DIR: dir },
-		stdio: "inherit",
-	});
-}
-
 async function run(orgId: string, orgName: string) {
 	if (running.has(orgId)) {
 		queued.add(orgId);
@@ -28,9 +18,7 @@ async function run(orgId: string, orgName: string) {
 	}
 	running.add(orgId);
 	try {
-		const dir = `/sc-data/orgs/${orgId}`;
-		exportData(orgId, orgName, dir);
-		process.env.SC_DATA_DIR = dir;
+		process.env.SC_DATA_DIR = `/sc-data/orgs/${orgId}`;
 		process.env.SC_ORG_NAME = orgName;
 		const result = await syncFiles(orgId);
 		console.log(`[worker] ${orgId} fertig`, result);

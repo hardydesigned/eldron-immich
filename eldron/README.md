@@ -10,9 +10,11 @@ SentryCommand-Anbindung. Lizenz: AGPL-3.0 wie das Original – die Oberfläche v
   dazu rclone (S3-Bucket read-only + lokale XMP-Sidecars), `ffprobe-shim.sh` und `sc/`.
 - `sc/bridge.ts` – `/sc-api` (Flugspuren, Fotomosaik) hinter dem internen Caddy.
 - `sc/worker.ts` – `/sc-worker/sync`: nimmt den Anstoß aus SentryCommand entgegen (gemeinsames
-  Geheimnis), holt die Daten der Org nach `/sc-data/orgs/<org>` (`export.ts`) und läuft den
-  Dateiteil (`files.ts`): Bibliotheken, App-Uploads, Fotomosaike, Positionen, Flugspuren.
-  Danach meldet er sich an `SC_CONVEX_SITE_URL/immich/worker-done` zurück.
+  Geheimnis) und läuft den Dateiteil (`files.ts`): Bibliotheken, App-Uploads, Fotomosaike,
+  Positionen, Flugspuren. Danach meldet er sich an `SC_CONVEX_SITE_URL/immich/worker-done` zurück.
+- `sc/lib/convex.ts` – liest SentryCommand über `POST $CONVEX_URL/api/query`
+  (`immich/service_queries`), ausgewiesen mit `CONVEX_SERVICE_SECRET`. Kein Deploy-Key: der
+  Dienst darf genau diese beiden Abfragen, Telemetrie nur im Zeitfenster einer Aufnahme.
 - `e2e/run.sh` – Abnahme mit playwright-cli gegen eine laufende Stufe.
 
 Konten, Freigaben und die Einsatz-Alben legt SentryCommand selbst über die Immich-API an
