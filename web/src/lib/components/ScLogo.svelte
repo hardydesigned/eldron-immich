@@ -11,8 +11,15 @@
 </script>
 
 <span class="inline-flex items-center gap-2 {className}" data-testid="eldron-logo">
-  <img src="/eldron-logo.png" alt="ELDRON" class="{heights[size]} w-auto object-contain" />
-  {#if variant !== 'icon'}
-    <span class="text-lg font-semibold tracking-wide text-primary">ELDRON</span>
+  {#if variant === 'icon'}
+    <img src="/eldron-logo.png" alt="ELDRON" class="{heights[size]} w-auto object-contain" />
+  {:else}
+    <span class="flex aspect-square size-8 items-center justify-center">
+      <img src="/eldron-logo.png" alt="ELDRON" class="size-6 object-contain" />
+    </span>
+    <span class="grid text-left leading-tight">
+      <span class="truncate text-sm font-medium">HardyTec Industries</span>
+      <span class="truncate text-xs">ELDRON</span>
+    </span>
   {/if}
 </span>

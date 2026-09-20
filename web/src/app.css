@@ -19,8 +19,8 @@
 }
 
 @theme {
-  --font-sans: 'GoogleSans', sans-serif;
-  --font-mono: 'GoogleSansCode', monospace;
+  --font-sans: 'Geist', sans-serif;
+  --font-mono: 'GeistMono', monospace;
 
   --spacing-18: 4.5rem;
 
@@ -67,15 +67,120 @@
 @layer base {
   :root {
     /* light */
-    --immich-primary: 66 80 175;
-    --immich-bg: 255 255 255;
-    --immich-fg: 0 0 0;
+    --immich-primary: 201 100 66;
+    --immich-bg: 250 249 245;
+    --immich-fg: 61 57 41;
+    --immich-gray: 245 244 238;
 
     /* dark */
-    --immich-dark-primary: 172 203 250;
-    --immich-dark-bg: 10 10 10;
-    --immich-dark-fg: 229 231 235;
-    --immich-dark-gray: 33 33 33;
+    --immich-dark-primary: 240 124 65;
+    --immich-dark-bg: 38 38 36;
+    --immich-dark-fg: 241 241 239;
+    --immich-dark-gray: 44 44 43;
+  }
+
+  :root {
+    /* Warme Stone-Rampe aus den SentryCommand-Tokens */
+    --sc-stone-50: oklch(0.985 0.004 95.1);
+    --sc-stone-100: oklch(0.9663 0.008 98.8792);
+    --sc-stone-200: oklch(0.9341 0.0153 90.239);
+    --sc-stone-300: oklch(0.8847 0.0069 97.3627);
+    --sc-stone-400: oklch(0.7621 0.0156 98.3528);
+    --sc-stone-500: oklch(0.634 0.01 97.5);
+    --sc-stone-600: oklch(0.5341 0.0078 97.4503);
+    --sc-stone-700: oklch(0.436 0.014 96.5);
+    --sc-stone-800: oklch(0.3438 0.0269 95.7226);
+    --sc-stone-900: oklch(0.2928 0.0018 106.5092);
+    --sc-stone-950: oklch(0.2679 0.0036 106.6427);
+  }
+
+  :root:not(.dark),
+  .light {
+    --immich-ui-primary-50: oklch(0.971 0.018 39.0427);
+    --immich-ui-primary-100: oklch(0.941 0.036 39.0427);
+    --immich-ui-primary-200: oklch(0.879 0.068 39.0427);
+    --immich-ui-primary-300: oklch(0.799 0.1 39.0427);
+    --immich-ui-primary-400: oklch(0.71 0.126 39.0427);
+    --immich-ui-primary-500: oklch(0.6171 0.1375 39.0427);
+    --immich-ui-primary-600: oklch(0.53 0.126 39.0427);
+    --immich-ui-primary-700: oklch(0.441 0.104 39.0427);
+    --immich-ui-primary-800: oklch(0.351 0.082 39.0427);
+    --immich-ui-primary-900: oklch(0.262 0.059 39.0427);
+    --immich-ui-primary-950: oklch(0.193 0.043 39.0427);
+
+    --immich-ui-light-50: var(--sc-stone-50);
+    --immich-ui-light-100: var(--sc-stone-100);
+    --immich-ui-light-200: var(--sc-stone-200);
+    --immich-ui-light-300: var(--sc-stone-300);
+    --immich-ui-light-400: var(--sc-stone-400);
+    --immich-ui-light-500: var(--sc-stone-500);
+    --immich-ui-light-600: var(--sc-stone-600);
+    --immich-ui-light-700: var(--sc-stone-700);
+    --immich-ui-light-800: var(--sc-stone-800);
+    --immich-ui-light-900: var(--sc-stone-900);
+    --immich-ui-light-950: var(--sc-stone-950);
+
+    --immich-ui-dark-50: var(--sc-stone-950);
+    --immich-ui-dark-100: var(--sc-stone-900);
+    --immich-ui-dark-200: var(--sc-stone-800);
+    --immich-ui-dark-300: var(--sc-stone-700);
+    --immich-ui-dark-400: var(--sc-stone-600);
+    --immich-ui-dark-500: var(--sc-stone-500);
+    --immich-ui-dark-600: var(--sc-stone-400);
+    --immich-ui-dark-700: var(--sc-stone-300);
+    --immich-ui-dark-800: var(--sc-stone-200);
+    --immich-ui-dark-900: var(--sc-stone-100);
+    --immich-ui-dark-950: var(--sc-stone-50);
+
+    --immich-ui-light: oklch(0.9818 0.0054 95.0986);
+    --immich-ui-dark: oklch(0.3438 0.0269 95.7226);
+    --immich-ui-muted: oklch(0.5341 0.0078 97.4503);
+    --immich-ui-gray: oklch(0.9663 0.008 98.8792);
+    --immich-ui-default-border: oklch(0.8847 0.0069 97.3627);
+  }
+
+  .dark {
+    --immich-ui-primary-950: oklch(0.976 0.013 45.5948);
+    --immich-ui-primary-900: oklch(0.955 0.023 45.5948);
+    --immich-ui-primary-800: oklch(0.915 0.046 45.5948);
+    --immich-ui-primary-700: oklch(0.873 0.072 45.5948);
+    --immich-ui-primary-600: oklch(0.796 0.115 45.5948);
+    --immich-ui-primary-500: oklch(0.7084 0.1601 45.5948);
+    --immich-ui-primary-400: oklch(0.584 0.132 45.5948);
+    --immich-ui-primary-300: oklch(0.492 0.11 45.5948);
+    --immich-ui-primary-200: oklch(0.4 0.088 45.5948);
+    --immich-ui-primary-100: oklch(0.291 0.063 45.5948);
+    --immich-ui-primary-50: oklch(0.22 0.046 45.5948);
+
+    --immich-ui-light-50: var(--sc-stone-950);
+    --immich-ui-light-100: var(--sc-stone-900);
+    --immich-ui-light-200: var(--sc-stone-800);
+    --immich-ui-light-300: var(--sc-stone-700);
+    --immich-ui-light-400: var(--sc-stone-600);
+    --immich-ui-light-500: var(--sc-stone-500);
+    --immich-ui-light-600: var(--sc-stone-400);
+    --immich-ui-light-700: var(--sc-stone-300);
+    --immich-ui-light-800: var(--sc-stone-200);
+    --immich-ui-light-900: var(--sc-stone-100);
+    --immich-ui-light-950: var(--sc-stone-50);
+
+    --immich-ui-dark-50: var(--sc-stone-50);
+    --immich-ui-dark-100: var(--sc-stone-100);
+    --immich-ui-dark-200: var(--sc-stone-200);
+    --immich-ui-dark-300: var(--sc-stone-300);
+    --immich-ui-dark-400: var(--sc-stone-400);
+    --immich-ui-dark-500: var(--sc-stone-500);
+    --immich-ui-dark-600: var(--sc-stone-600);
+    --immich-ui-dark-700: var(--sc-stone-700);
+    --immich-ui-dark-800: var(--sc-stone-800);
+    --immich-ui-dark-900: var(--sc-stone-900);
+    --immich-ui-dark-950: var(--sc-stone-950);
+
+    --immich-ui-light: oklch(0.2679 0.0036 106.6427);
+    --immich-ui-dark: oklch(0.9576 0.0027 106.4494);
+    --immich-ui-muted: oklch(0.7713 0.0169 99.0657);
+    --immich-ui-gray: oklch(0.2928 0.0018 106.5092);
+    --immich-ui-default-border: oklch(0.3618 0.0101 106.8928);
   }
 
   button:not(:disabled),
@@ -86,24 +191,21 @@
 
 @layer utilities {
   @font-face {
-    font-family: 'GoogleSans';
-    src: url('$lib/assets/fonts/GoogleSans/GoogleSans.ttf') format('truetype-variations');
-    font-weight: 410 900;
+    font-family: 'Geist';
+    src: url('$lib/assets/fonts/Geist/Geist.ttf') format('truetype-variations');
+    font-weight: 100 900;
     font-style: normal;
-    ascent-override: 106.25%;
-    size-adjust: 106.25%;
   }
 
   @font-face {
-    font-family: 'GoogleSansCode';
-    src: url('$lib/assets/fonts/GoogleSansCode/GoogleSansCode.ttf') format('truetype-variations');
-    font-weight: 1 900;
-    font-style: monospace;
+    font-family: 'GeistMono';
+    src: url('$lib/assets/fonts/GeistMono/GeistMono.ttf') format('truetype-variations');
+    font-weight: 100 900;
+    font-style: normal;
   }
 
   :root {
     font-family: var(--font-sans);
-    letter-spacing: 0.1px;
 
     /* Used by layouts to ensure proper spacing between navbar and content */
     --navbar-height: calc(4.5rem + 4px);
