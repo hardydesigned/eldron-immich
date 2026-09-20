@@ -375,8 +375,8 @@
     onClusterSelect(visibleIds, bbox);
   };
 
-  const handleMoveEnd = () => {
-    if (viewportGridActive && !assetViewerManager.isViewing) {
+  const handleMoveEnd = (event: { originalEvent?: unknown }) => {
+    if (viewportGridActive && !assetViewerManager.isViewing && event.originalEvent) {
       handleViewportSelect();
     }
   };

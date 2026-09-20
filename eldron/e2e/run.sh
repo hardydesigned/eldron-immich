@@ -38,6 +38,14 @@ api() { js "async () => JSON.stringify(await (await fetch('/api$1', { credential
 
 expected() { node --no-warnings --env-file=$ENV expected.mjs "$1"; }
 
+cluster_panel() { # cluster_panel <rolle>
+	local r
+	r=$(pw run-code "async page => { const all = page.getByTestId('sc-map-cluster'); const counts = await all.evaluateAll(es => es.map(e => Number(e.dataset.count))); const n = Math.min(...counts.filter(x => x > 1)); const c = all.nth(counts.indexOf(n)); await c.click(); const items = page.getByTestId('sc-cluster-asset'); await items.first().waitFor({ timeout: 15000 }); await page.waitForTimeout(2000); const loaded = await page.evaluate(() => [...document.querySelectorAll('[data-testid=sc-cluster-asset] img')].filter(i => i.naturalWidth > 0).length); return n + '/' + (await items.count()) + '/' + loaded; }" 2>/dev/null | grep -A1 Result | tail -1 | tr -d '"')
+	check "[$1] Klick auf Cluster zeigt dessen Medien im Seitenpanel (Cluster/Kacheln/geladen: $r)" "$(echo "$r" | awk -F/ '$1 > 1 && $1 == $2 && $3 > 0 { print "true" }')"
+	pw run-code "async page => { await page.getByTestId('sc-cluster-asset').first().click(); await page.waitForTimeout(3000); }" >/dev/null 2>&1
+	check "[$1] Klick auf ein Medium öffnet den Viewer" "$(js "() => Boolean(document.querySelector('#immich-asset-viewer'))")"
+}
+
 # ---------- Admin ----------
 login admin
 echo "Admin: Ordner je Einsatz"
@@ -76,11 +84,16 @@ check "darunter Videos ($VIDEOS)" "$([ "${VIDEOS:-0}" -gt 0 ] && echo true || ec
 count_on_map() { js "() => [...document.querySelectorAll('[data-testid=sc-map-cluster]')].reduce((n, e) => n + Number(e.dataset.count), 0) + document.querySelectorAll('[data-testid=sc-map-marker]').length"; }
 wait_for "document.querySelectorAll('[data-testid=sc-map-cluster],[data-testid=sc-map-marker]').length > 0" 30
 ALL=$(count_on_map)
+MOSAICS_ALL=$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.count")
 pw run-code "async page => { const to = page.getByTestId('sc-timebar-to'); const max = Number(await to.getAttribute('max')); await to.fill(String(Math.max(1, Math.floor(max / 3)))); await page.waitForTimeout(2500); }" >/dev/null 2>&1
 FILTERED=$(count_on_map)
 check "Zeitstrahl filtert die Karte ($ALL → $FILTERED)" "$([ "${FILTERED:-0}" -lt "${ALL:-0}" ] && echo true || echo false)"
+MOSAICS_FILTERED=$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.count")
+check "Zeitstrahl blendet Mosaike außerhalb des Zeitraums aus ($MOSAICS_ALL → $MOSAICS_FILTERED)" "$([ "${MOSAICS_FILTERED:-0}" -lt "${MOSAICS_ALL:-0}" ] && echo true || echo false)"
 pw run-code "async page => { await page.getByTestId('sc-timebar-reset').click(); await page.waitForTimeout(2500); }" >/dev/null 2>&1
 check "»Alle« setzt den Zeitstrahl zurück ($(count_on_map))" "$([ "$(count_on_map)" = "$ALL" ] && echo true || echo false)"
+check "…auch für die Mosaike ($(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.count"))" "$([ "$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.count")" = "$MOSAICS_ALL" ] && echo true || echo false)"
+cluster_panel admin
 
 echo "Admin: Telemetrie zum Video"
 TRACK=$(expected track-asset)
@@ -113,10 +126,14 @@ WANT_MOSAIC=$(expected mosaic-count)
 pw goto "$BASE/map" >/dev/null 2>&1
 wait_for "document.querySelector('[data-testid=sc-mosaic-toggle]')" 40
 check "Mosaik-Ebene bietet alle $WANT_MOSAIC Mosaike an" "$([ "$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.count")" = "$WANT_MOSAIC" ] && echo true || echo false)"
-TILES=$(pw run-code "async page => { const seen = []; page.on('response', r => { if (r.url().includes('/sc-api/mosaics/')) seen.push(r.status()); }); await page.getByTestId('sc-mosaic-fit').click(); await page.waitForTimeout(9000); return seen.filter(s => s === 200).length; }" 2>/dev/null | grep -A1 Result | tail -1 | tr -d '"')
-check "Mosaik-Kacheln werden auf der Karte geladen ($TILES Kacheln)" "$([ "${TILES:-0}" -gt 3 ] && echo true || echo false)"
-pw run-code "async page => { await page.getByTestId('sc-mosaic-toggle').click(); await page.waitForTimeout(1000); }" >/dev/null 2>&1
-check "Mosaik-Ebene lässt sich ausschalten" "$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.enabled === 'false'")"
+pw run-code "async page => { await page.getByTestId('sc-mosaic-toggle').click(); await page.getByTestId('sc-mosaic-list').waitFor(); }" >/dev/null 2>&1
+check "Mosaik-Liste nennt jedes Mosaik mit Einsatz" "$(js "() => { const items = [...document.querySelectorAll('[data-testid=sc-mosaic-item]')]; return items.length === $WANT_MOSAIC && items.every(i => !i.textContent.trim().startsWith('op-') && !/^[a-z0-9]{32}$/.test(i.querySelector('span').textContent.trim())); }")"
+TILES=$(pw run-code "async page => { const seen = []; page.on('response', r => { if (r.url().includes('/sc-api/mosaics/')) seen.push(r.status()); }); await page.getByTestId('sc-mosaic-item').first().click(); await page.waitForTimeout(9000); return seen.filter(s => s === 200).length; }" 2>/dev/null | grep -A1 Result | tail -1 | tr -d '"')
+check "Klick in der Liste springt zum Mosaik, Kacheln laden ($TILES Kacheln)" "$([ "${TILES:-0}" -gt 3 ] && echo true || echo false)"
+pw run-code "async page => { await page.getByTestId('sc-mosaic-none').click(); await page.getByTestId('sc-mosaic-check').first().check(); await page.waitForTimeout(1000); }" >/dev/null 2>&1
+check "Einzelnes Mosaik wählbar, übrige ausgeblendet" "$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.shown === '1' && document.querySelectorAll('[data-testid=sc-mosaic-check]:checked').length === 1")"
+pw run-code "async page => { await page.getByTestId('sc-mosaic-check').first().uncheck(); await page.waitForTimeout(1000); }" >/dev/null 2>&1
+check "Mosaik-Ebene lässt sich ganz ausschalten" "$(js "() => document.querySelector('[data-testid=sc-mosaic-toggle]')?.dataset.shown === '0'")"
 MOSAIC_ASSET=$(expected mosaic-asset)
 check "Mosaik liegt als Bild-Element vor" "$([ -n "$MOSAIC_ASSET" ] && echo true || echo false)"
 check "Mosaik hat ein Vorschaubild" "$(js "async () => { const r = await fetch('/api/assets/$MOSAIC_ASSET/thumbnail?size=preview', { credentials: 'include' }); return r.ok && (r.headers.get('content-type') || '').startsWith('image/'); }")"
@@ -156,6 +173,7 @@ pw goto "$BASE/map" >/dev/null 2>&1
 wait_for "document.querySelector('[data-testid=sc-timebar]')" 40
 wait_for "document.querySelectorAll('[data-testid=sc-map-cluster],[data-testid=sc-map-marker]').length > 0" 30
 check "Mitglied sieht die Medien seiner Einsätze auf der Karte" "$(js "() => document.querySelectorAll('[data-testid=sc-map-cluster],[data-testid=sc-map-marker]').length > 0")"
+cluster_panel member
 WANT_MM=$(expected member-mosaic-count)
 GOT_MM=$(js "async () => (await (await fetch('/sc-api/mosaics', { credentials: 'include' })).json()).length")
 check "Mitglied bekommt nur die Mosaike seiner Einsätze ($GOT_MM von $WANT_MM)" "$([ "$GOT_MM" = "$WANT_MM" ] && echo true || echo false)"

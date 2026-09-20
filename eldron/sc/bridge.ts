@@ -27,17 +27,17 @@ async function listTracks(headers: Record<string, string>) {
 }
 
 // Einsätze, deren Album der Aufrufer sieht – dieselbe Regel wie für Ordner und Medien.
-async function allowedOperations(headers: Record<string, string>): Promise<Set<string> | null> {
+async function allowedOperations(headers: Record<string, string>): Promise<Map<string, string> | null> {
 	const res = await fetch(`${IMMICH}/api/albums?shared=true`, { headers });
 	const own = await fetch(`${IMMICH}/api/albums`, { headers });
 	if (!res.ok || !own.ok) return null;
-	const albums = [...((await res.json()) as Array<{ description: string }>), ...((await own.json()) as Array<{ description: string }>)];
-	return new Set(albums.flatMap((a) => [...a.description.matchAll(/\[sc:([a-z0-9]+)\]/g)].map((m) => m[1])));
+	const albums = [...((await res.json()) as Array<{ albumName: string; description: string }>), ...((await own.json()) as Array<{ albumName: string; description: string }>)];
+	return new Map(albums.flatMap((a) => [...a.description.matchAll(/\[sc:([a-z0-9]+)\]/g)].map((m) => [m[1], a.albumName] as const)));
 }
 
-type MosaicSession = { id: string; org_id: string; operation_id: string; min_lat: number | null; min_lng: number | null; max_lat: number | null; max_lng: number | null; updated_at: number };
+type MosaicSession = { id: string; org_id: string; operation_id: string; min_lat: number | null; min_lng: number | null; max_lat: number | null; max_lng: number | null; created_at: number; updated_at: number };
 
-type Mosaic = { id: string; operationId: string; bounds: number[]; updatedAt: number };
+type Mosaic = { id: string; operationId: string; name: string; bounds: number[]; createdAt: number; updatedAt: number };
 // Kacheln kommen zu Dutzenden – die Rechteprüfung gilt je Sitzung 30 s.
 const mosaicCache = new Map<string, { until: number; value: Mosaic[] | null }>();
 
@@ -57,7 +57,7 @@ async function loadMosaics(headers: Record<string, string>): Promise<Mosaic[] | 
 	const sessions = (await (await fetch(`${TILES}/sessions`)).json()) as MosaicSession[];
 	return sessions
 		.filter((s) => s.min_lat != null && allowed.has(s.operation_id))
-		.map((s) => ({ id: s.id, operationId: s.operation_id, bounds: [s.min_lng, s.min_lat, s.max_lng, s.max_lat], updatedAt: s.updated_at }));
+		.map((s) => ({ id: s.id, operationId: s.operation_id, name: allowed.get(s.operation_id) ?? s.operation_id, bounds: [s.min_lng, s.min_lat, s.max_lng, s.max_lat], createdAt: s.created_at, updatedAt: s.updated_at }));
 }
 
 createServer(async (req, res) => {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import UserPageLayout from '$lib/components/layouts/UserPageLayout.svelte';
-  import MapTimelinePanel from './MapTimelinePanel.svelte';
+  import ScClusterPanel from '$lib/components/shared-components/map/sc/ScClusterPanel.svelte';
   import ScMosaicLayer from '$lib/components/shared-components/map/sc/ScMosaicLayer.svelte';
   import ScTrackLayer from '$lib/components/shared-components/map/sc/ScTrackLayer.svelte';
   import ScTimeBar from '$lib/components/shared-components/map/sc/ScTimeBar.svelte';
@@ -129,10 +129,9 @@
 
       {#if isTimelinePanelVisible && selectedClusterBBox}
         <div class="h-1/2 min-h-0 w-full pt-2 sm:h-full sm:w-1/3 sm:ps-2 sm:pt-0">
-          <MapTimelinePanel
-            bbox={selectedClusterBBox}
-            {selectedClusterIds}
-            assetCount={selectedClusterIds.size}
+          <ScClusterPanel
+            assetIds={[...selectedClusterIds]}
+            onOpen={(id) => handlePromiseError(openInViewer(id))}
             onClose={closeTimelinePanel}
           />
         </div>
@@ -140,7 +139,7 @@
     </div>
   </UserPageLayout>
   <Portal target="body">
-    {#if assetViewerManager.isViewing && !isTimelinePanelVisible}
+    {#if assetViewerManager.isViewing}
       {#await import('$lib/components/asset-viewer/AssetViewer.svelte') then { default: AssetViewer }}
         <AssetViewer
           cursor={{ current: assetViewerManager.asset! }}
