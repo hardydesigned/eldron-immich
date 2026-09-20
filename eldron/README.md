@@ -9,10 +9,16 @@ SentryCommand-Anbindung. Lizenz: AGPL-3.0 wie das Original – die Oberfläche v
 - `Dockerfile` – baut die Web-Oberfläche aus diesem Fork und legt sie in das offizielle `immich-server`-Image,
   dazu rclone (S3-Bucket read-only + lokale XMP-Sidecars), `ffprobe-shim.sh` und `sc/`.
 - `sc/bridge.ts` – `/sc-api` (Flugspuren, Fotomosaik) hinter dem internen Caddy.
-- `sc/loop.sh` – alle `SC_SYNC_INTERVAL` Sekunden `export.ts` (Convex + Clerk → `/sc-data`) und `sync.ts`
-  (Alben je Einsatz, Crew, Positionen, Flugspuren) – für jede Org der Clerk-Instanz
-  (oder nur `SC_ORG_IDS`), Daten je Org unter `/sc-data/orgs/<org>`.
+- `sc/worker.ts` – `/sc-worker/sync`: nimmt den Anstoß aus SentryCommand entgegen (gemeinsames
+  Geheimnis), holt die Daten der Org nach `/sc-data/orgs/<org>` (`export.ts`) und läuft den
+  Dateiteil (`files.ts`): Bibliotheken, App-Uploads, Fotomosaike, Positionen, Flugspuren.
+  Danach meldet er sich an `SC_CONVEX_SITE_URL/immich/worker-done` zurück.
 - `e2e/run.sh` – Abnahme mit playwright-cli gegen eine laufende Stufe.
+
+Konten, Freigaben und die Einsatz-Alben legt SentryCommand selbst über die Immich-API an
+(`convex/immich/`); angestoßen wird der ganze Abgleich dort per Cron im Viertelstundentakt.
+Der technische Organisationsnutzer samt API-Schlüssel steht in SentryCommand (`immich_links`),
+nicht mehr in einer `state.json` im Container.
 
 ## Branches und Server
 
@@ -30,6 +36,10 @@ Je Stufe eigene `eldron/.env` (Vorlage `env.template`) und eigenes Compose-Proje
    danach Job „Smart Search" mit „Alle" neu starten.
 3. Transcoding aus (Videos liegen im S3-Bucket).
 4. OAuth: Clerk-OAuth-App der Stufe, „Auto Register" an. Nutzer werden per E-Mail verknüpft.
+5. Admin-API-Schlüssel anlegen (Kontoeinstellungen → API-Schlüssel) und am Convex-Deployment
+   der Stufe als `IMMICH_ADMIN_API_KEY` hinterlegen, dazu `IMMICH_URL` (öffentliche Adresse
+   dieser Stufe), `SC_WORKER_URL` (dieselbe Adresse), `IMMICH_SERVICE_SECRET` (wie in
+   `eldron/.env`) und `IMMICH_S3_ROOT` (`/mnt/s3`). Ohne `IMMICH_URL` bleibt der Abgleich aus.
 
 ## Upstream-Update
 

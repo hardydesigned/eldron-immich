@@ -16,6 +16,6 @@ rclone mount media: /mnt/s3 \
 	--log-file /tmp/rclone.log
 
 node /sc/bridge.ts &
-/sc/loop.sh &
+node /sc/worker.ts &
 
 exec start.sh

@@ -1,10 +1,18 @@
 // Soll-Werte für run.sh – aus dem SentryCommand-Export und dem Immich-Bestand der Org.
 import { readFileSync, readdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 
 const DATA = new URL("../sc-data/", import.meta.url).pathname;
 const BASE = process.env.IMMICH_URL ?? "http://localhost:2283";
 const read = (file) => JSON.parse(readFileSync(DATA + file, "utf8"));
-const key = read("state.json").orgUser.key;
+// Der Schlüssel des Organisationsnutzers steht in SentryCommand, nicht mehr im Container.
+const link = JSON.parse(
+	execFileSync("npx", ["convex", "run", "immich/internal_queries:linkForOrg", JSON.stringify({ orgId: read("convex/meta.json").org_id })], {
+		cwd: process.env.SC_REPO ?? "/opt/convex-cli",
+		encoding: "utf8",
+	}).trim(),
+);
+const key = link.api_key;
 const api = async (method, path, body) =>
 	(await fetch(`${BASE}/api${path}`, { method, headers: { "x-api-key": key, "content-type": "application/json" }, body: body && JSON.stringify(body) })).json();
 

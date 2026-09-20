@@ -8,20 +8,6 @@ export function load(table: string): Row[] {
 	return JSON.parse(readFileSync(`${DIR}/${table}.json`, "utf8")) as Row[];
 }
 
-export type Member = { clerk_user_id: string; email: string; role: string };
-
-export function crewParticipates(op: Row, crewId: string): boolean {
-	if ([op.observer_id, op.mission_commander_id, op.driver_id].includes(crewId)) return true;
-	if ((op.additional_crew ?? []).some((e: { crew_member_id?: string }) => e.crew_member_id === crewId)) return true;
-	return (op.crew_member_ids ?? []).some((id: string) => String(id) === crewId);
-}
-
-export function crewEmail(crew: Row, members: Member[]): string | null {
-	const linked = crew.clerk_user_id ? members.find((m) => m.clerk_user_id === crew.clerk_user_id)?.email : undefined;
-	const email = linked ?? crew.contact_email;
-	return typeof email === "string" && email.includes("@") ? email.trim().toLowerCase() : null;
-}
-
 export function operationCenter(operationDrones: Row[], operationId: string): { lat: number; lng: number } | null {
 	for (const od of operationDrones) {
 		const center = od.operation_id === operationId ? od.flight_zones?.center : undefined;

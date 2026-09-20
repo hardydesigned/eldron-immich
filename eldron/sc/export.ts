@@ -72,11 +72,15 @@ function extension(contentType: string | null, name: string): string {
 	return fromName ?? known[contentType ?? ""] ?? "";
 }
 
-async function downloadAppUploads(media: Row[]) {
+/**
+ * Medien, die nicht im Bucket liegen, kommen als Datei dazu – benannt nach ihrer
+ * Medien-Id, damit SentryCommand sie in Immich ohne Namensabgleich wiederfindet.
+ */
+async function downloadAppUploads(media: Row[]): Promise<number> {
 	const items = media.filter(
 		(m) => MEDIA_TYPES.has(String(m.type)) && typeof m.file_url === "string" && !m.file_url.startsWith(`${ORG}/`) && !m.deleted_at,
 	);
-	const uploads: Array<{ media_id: string; path: string }> = [];
+	let count = 0;
 	for (let i = 0; i < items.length; i += 50) {
 		const ids = items.slice(i, i + 50).map((m) => m._id);
 		const summaries = JSON.parse(convex(["run", "media/embeddings/data:getMediaSummaries", JSON.stringify({ ids })])) as Array<{
@@ -86,17 +90,15 @@ async function downloadAppUploads(media: Row[]) {
 		}>;
 		for (const summary of summaries) {
 			if (!summary.fileUrl?.startsWith("http")) continue;
+			const target = join(OUT, "uploads", ORG, `${summary._id}${extension(null, summary.name)}`);
+			count++;
+			if (existsSync(target)) continue;
 			const res = await fetch(summary.fileUrl);
 			if (!res.ok) continue;
-			const safe = summary.name.replace(/[^\p{L}\p{N}._-]+/gu, "_");
-			const rel = join("uploads", ORG, `${safe}_${summary._id}${extension(res.headers.get("content-type"), summary.name)}`);
-			const target = join(OUT, rel);
-			if (!existsSync(target)) writeFileSync(target, Buffer.from(await res.arrayBuffer()));
-			uploads.push({ media_id: summary._id, path: join(OUT, rel) });
+			writeFileSync(target, Buffer.from(await res.arrayBuffer()));
 		}
 	}
-	writeFileSync(join(OUT, "convex", "uploads.json"), JSON.stringify(uploads));
-	return uploads;
+	return count;
 }
 
 mkdirSync(join(OUT, "convex"), { recursive: true });
@@ -111,6 +113,6 @@ for (const table of TABLES) {
 	if (table === "media_items") media = rows;
 }
 counts.members = (await exportMembers()).length;
-counts.uploads = (await downloadAppUploads(media)).length;
+counts.uploads = await downloadAppUploads(media);
 writeFileSync(join(OUT, "convex", "meta.json"), JSON.stringify({ org_id: ORG, exported_at: Date.now() }));
 console.log(counts);

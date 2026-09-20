@@ -2,6 +2,9 @@
 	handle /sc-api/* {
 		reverse_proxy immich-server:2284
 	}
+	handle /sc-worker/* {
+		reverse_proxy immich-server:2285
+	}
 	handle {
 		reverse_proxy immich-server:2283
 	}
