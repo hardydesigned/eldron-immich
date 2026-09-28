@@ -252,7 +252,7 @@ export interface Lang {
   rtl?: boolean;
 }
 
-export const defaultLang: Lang = { name: 'English', code: 'en', loader: () => import('$i18n/en.json') };
+export const defaultLang: Lang = { name: 'Deutsch', code: 'de', loader: () => import('$i18n/de.json') };
 
 export enum ImmichProduct {
   Client = 'immich-client',
