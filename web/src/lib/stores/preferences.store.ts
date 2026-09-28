@@ -1,7 +1,6 @@
 import { persisted } from 'svelte-persisted-store';
-import { browser } from '$app/environment';
 import { defaultLang } from '$lib/constants';
-import { convertBCP47, getPreferredLocale } from '$lib/utils/i18n';
+import { convertBCP47 } from '$lib/utils/i18n';
 
 // Locale to use for formatting dates, numbers, etc.
 export const locale = persisted('locale', 'default', {
@@ -11,8 +10,7 @@ export const locale = persisted('locale', 'default', {
   },
 });
 
-const preferredLocale = browser ? getPreferredLocale() : undefined;
-export const lang = persisted<string>('lang', preferredLocale || defaultLang.code, {
+export const lang = persisted<string>('lang', defaultLang.code, {
   serializer: {
     parse: (text) => convertBCP47(text),
     stringify: (object) => object ?? '',
