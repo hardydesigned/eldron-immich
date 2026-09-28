@@ -1,23 +1,27 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
-import type { Row } from "./data.ts";
+import { telemetryWindow, type SyncData, type TelemetryPoint } from "./convex.ts";
 
-export type TrackPoint = { t: number; lat: number; lng: number; alt: number | null; speed: number | null; heading: number | null; battery: number | null };
+export type TrackPoint = TelemetryPoint;
 
 const S3 = "/mnt/s3";
 const BLOCK_MS = 15 * 60_000;
 
-export function droneForVideo(path: string, org: string, drones: Row[], streamKeys: Row[], bindings: Row[]): { droneId?: string; sn?: string } {
+export function droneForVideo(
+	path: string,
+	org: string,
+	sources: Pick<SyncData, "drones" | "streamKeys" | "bindings">,
+): { droneId?: string; sn?: string } {
 	const rel = path.slice(`${S3}/${org}/`.length).split("/");
 	if (rel[0] === "dji" && rel[1]) {
-		return { sn: rel[1], droneId: bindings.find((b) => b.device_sn === rel[1])?.drone_id };
+		return { sn: rel[1], droneId: sources.bindings.find((b) => b.device_sn === rel[1])?.drone_id ?? undefined };
 	}
 	const streamPath = rel[0];
 	const droneId =
-		drones.find((d) => d.live_stream_url === streamPath)?._id ??
-		streamKeys.find((k) => k.drone_live_stream_url === streamPath && k.drone_id)?.drone_id;
+		sources.drones.find((d) => d.live_stream_url === streamPath)?.id ??
+		sources.streamKeys.find((k) => k.path === streamPath && k.drone_id)?.drone_id;
 	if (!droneId) return {};
-	return { droneId, sn: bindings.find((b) => b.drone_id === droneId)?.device_sn };
+	return { droneId, sn: sources.bindings.find((b) => b.drone_id === droneId)?.device_sn };
 }
 
 function s3Points(org: string, sn: string, start: number, end: number): TrackPoint[] {
@@ -46,22 +50,15 @@ function s3Points(org: string, sn: string, start: number, end: number): TrackPoi
 	return points;
 }
 
-function convexPoints(telemetry: Row[], droneId: string, start: number, end: number): TrackPoint[] {
-	return telemetry
-		.filter((p) => p.drone_id === droneId && p.timestamp >= start && p.timestamp <= end && p.lat && p.lng)
-		.map((p) => ({ t: p.timestamp, lat: p.lat, lng: p.lng, alt: p.alt ?? null, speed: p.speed ?? null, heading: p.heading ?? null, battery: p.battery ?? null }));
-}
-
-export function buildTrack(
+export async function buildTrack(
 	source: { droneId?: string; sn?: string },
 	org: string,
 	start: number,
 	end: number,
-	telemetry: Row[],
-): TrackPoint[] {
+): Promise<TrackPoint[]> {
 	const merged = [
 		...(source.sn ? s3Points(org, source.sn, start, end) : []),
-		...(source.droneId ? convexPoints(telemetry, source.droneId, start, end) : []),
+		...(source.droneId ? await telemetryWindow(source.droneId, start, end) : []),
 	].sort((a, b) => a.t - b.t);
 	const deduped: TrackPoint[] = [];
 	for (const point of merged) {
@@ -75,9 +72,14 @@ export function buildTrack(
  * also ~1–2 min nach Stream-Ende. Passt eine Publisher-Sitzung desselben Pfads dazu, liefert sie das
  * Ende; der Start folgt aus der Videolänge (Sitzungen decken die Aufnahme nicht immer ganz ab).
  */
-export function recordingWindow(streamPath: string, registeredAt: number, lengthMs: number, sessions: Row[]): { start: number; end: number; anchor: "session" | "session-end" | "upload" } {
+export function recordingWindow(
+	streamPath: string,
+	registeredAt: number,
+	lengthMs: number,
+	sessions: SyncData["sessions"],
+): { start: number; end: number; anchor: "session" | "session-end" | "upload" } {
 	const candidates = sessions
-		.filter((s) => s.stream_path === streamPath && s.user_type === "publisher" && s.ended_at && s.started_at)
+		.filter((s) => s.stream_path === streamPath)
 		.map((s) => ({ start: Date.parse(s.started_at), end: Date.parse(s.ended_at) }))
 		.filter((s) => Number.isFinite(s.start) && registeredAt - s.end >= -60_000 && registeredAt - s.end <= 5 * 60_000);
 	if (candidates.length > 0) {

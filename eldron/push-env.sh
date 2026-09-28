@@ -1,27 +1,50 @@
 #!/usr/bin/env bash
 # Überträgt die Zugänge aus einer SentryCommand-.env in die Immich-.env einer Stufe auf eldron-suite.
 # Aufruf: eldron/push-env.sh <staging|prod> [sc-env-datei]
-# Fehlende Werte (z. B. CONVEX_DEPLOY_KEY) werden verdeckt abgefragt oder aus gleichnamigen Umgebungsvariablen genommen.
+# Fehlende Werte (z. B. CONVEX_SERVICE_SECRET) werden verdeckt abgefragt oder aus gleichnamigen Umgebungsvariablen genommen.
 set -euo pipefail
 
 STAGE="${1:?Aufruf: push-env.sh <staging|prod> [sc-env-datei]}"
-SC_ENV="${2:-$(cd "$(dirname "$0")/../.." && pwd)/sentrycommand/.env}"
+# Der Fork liegt als Submodul unter external/immich – die SC-.env also drei Ebenen höher.
+SC_ENV="${2:-$(cd "$(dirname "$0")/../../.." && pwd)/.env}"
 HOST="${ELDRON_SSH_HOST:-hetzner_eldron}"
 TARGET="/root/eldron-immich-$STAGE/eldron/.env"
-KEYS=(HETZNER_BUCKET HETZNER_S3_ENDPOINT HETZNER_S3_REGION HETZNER_S3_ACCESS_KEY HETZNER_S3_SECRET_KEY CLERK_SECRET_KEY CONVEX_DEPLOY_KEY IMMICH_ADMIN_EMAIL)
+KEYS=(HETZNER_BUCKET HETZNER_S3_ENDPOINT HETZNER_S3_REGION HETZNER_S3_ACCESS_KEY HETZNER_S3_SECRET_KEY CLERK_SECRET_KEY CONVEX_URL CONVEX_SERVICE_SECRET IMMICH_SERVICE_SECRET SC_CONVEX_SITE_URL IMMICH_ADMIN_EMAIL)
 
 [ -f "$SC_ENV" ] || { echo "$SC_ENV nicht gefunden" >&2; exit 1; }
 
+# `tr -d` entfernt das CR aus .env-Dateien mit Windows-Zeilenenden, sonst landet es im Wert.
+# `|| true` ist nötig, weil ein erfolgloses grep mit `set -euo pipefail` sonst das
+# ganze Skript beendet — und zwar ohne ein Wort, weil der Aufruf in einer ||-Liste steht.
 from_file() {
-  grep -E "^$1=" "$SC_ENV" | tail -1 | cut -d= -f2- | sed -E 's/[[:space:]]+#.*$//; s/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/'
+  grep -E "^$1=" "$SC_ENV" | tail -1 | cut -d= -f2- | tr -d '\r' | sed -E 's/[[:space:]]+#.*$//; s/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/' || true
+}
+
+# Zwei Werte heißen in der SentryCommand-.env anders.
+alias_of() {
+  case "$1" in
+    CONVEX_URL) echo NEXT_PUBLIC_CONVEX_URL ;;
+    SC_CONVEX_SITE_URL) echo NEXT_PUBLIC_CONVEX_SITE_URL ;;
+  esac
 }
 
 BLOCK=""
 for key in "${KEYS[@]}"; do
   value="${!key:-}"
   [ -n "$value" ] || value="$(from_file "$key")"
+  if [ -z "$value" ]; then
+    other="$(alias_of "$key")"
+    [ -z "$other" ] || value="$(from_file "$other")"
+  fi
   if [ -z "$value" ] && [ "$key" = IMMICH_ADMIN_EMAIL ]; then value="admin@eldron.local"; fi
   if [ -z "$value" ]; then
+    # Ohne Terminal (z. B. aus einem Agenten heraus) lässt sich nichts abfragen –
+    # dann lieber laut abbrechen als stumm aussteigen.
+    if ! { : </dev/tty; } 2>/dev/null; then
+      echo "$key fehlt in $SC_ENV und kann hier nicht abgefragt werden." >&2
+      echo "Voranstellen: $key=… eldron/push-env.sh $STAGE" >&2
+      exit 1
+    fi
     read -r -s -p "$key für $STAGE: " value </dev/tty
     echo >&2
   fi

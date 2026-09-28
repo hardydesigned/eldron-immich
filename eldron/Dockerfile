@@ -28,7 +28,6 @@ ARG SOURCE_COMMIT
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends rclone fuse3 \
 	&& rm -rf /var/lib/apt/lists/*
-RUN mkdir -p /opt/convex-cli && cd /opt/convex-cli && npm init -y >/dev/null && npm install --no-fund --no-audit convex@^1.41.0
 COPY --from=web /usr/src/app/web/build /build/www
 COPY eldron/ffprobe-shim.sh /usr/local/bin/ffprobe
 COPY eldron/mount-s3.sh /usr/local/bin/mount-s3.sh

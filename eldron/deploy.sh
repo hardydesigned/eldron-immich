@@ -17,6 +17,10 @@ SOURCE_COMMIT=$(git rev-parse HEAD)
 DC=(docker compose -p "eldron-immich-$STAGE")
 "${DC[@]}" build immich-server
 "${DC[@]}" up -d --remove-orphans
+# Die Caddyfile hängt als Bind-Mount am Container. `git reset --hard` legt sie neu
+# an, der laufende Proxy zeigt aber weiter auf die alte Datei — ohne Neuanlage
+# greift keine Änderung daran.
+"${DC[@]}" up -d --force-recreate proxy
 
 code=""
 for _ in $(seq 1 60); do
