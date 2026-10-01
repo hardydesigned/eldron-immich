@@ -5,6 +5,8 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 const IMMICH = process.env.IMMICH_INTERNAL_URL ?? "http://localhost:2283";
 const PORT = Number(process.env.SC_BRIDGE_PORT ?? 2284);
 const TILES = (process.env.PHOTOMOSAIC_TILE_URL ?? "").replace(/\/+$/, "");
+// Der Kachel-Server liest nur noch mit Secret (Session-Kennungen sind erratbar).
+const TILE_AUTH = { headers: { "X-Service-Secret": process.env.PHOTOMOSAIC_SERVICE_SECRET ?? "" } };
 const MOSAIC_TILE = /^\/sc-api\/mosaics\/(op-[a-z0-9]+)\/tiles\/(\d+)\/(\d+)\/(\d+)\.webp(\?t=\d+)?$/;
 const ID = /^\/sc-api\/telemetry\/([0-9a-f-]{36})$/;
 
@@ -54,7 +56,7 @@ async function listMosaics(headers: Record<string, string>): Promise<Mosaic[] | 
 async function loadMosaics(headers: Record<string, string>): Promise<Mosaic[] | null> {
 	const allowed = await allowedOperations(headers);
 	if (!allowed) return null;
-	const sessions = (await (await fetch(`${TILES}/sessions`)).json()) as MosaicSession[];
+	const sessions = (await (await fetch(`${TILES}/sessions`, TILE_AUTH)).json()) as MosaicSession[];
 	return sessions
 		.filter((s) => s.min_lat != null && allowed.has(s.operation_id))
 		.map((s) => ({ id: s.id, operationId: s.operation_id, name: allowed.get(s.operation_id) ?? s.operation_id, bounds: [s.min_lng, s.min_lat, s.max_lng, s.max_lat], createdAt: s.created_at, updatedAt: s.updated_at }));
@@ -79,7 +81,7 @@ createServer(async (req, res) => {
 			res.writeHead(mosaics ? 404 : 401).end();
 			return;
 		}
-		const upstream = await fetch(`${TILES}/sessions/${tile[1]}/tiles/${tile[2]}/${tile[3]}/${tile[4]}.webp${tile[5] ?? ""}`).catch(() => null);
+		const upstream = await fetch(`${TILES}/sessions/${tile[1]}/tiles/${tile[2]}/${tile[3]}/${tile[4]}.webp${tile[5] ?? ""}`, TILE_AUTH).catch(() => null);
 		if (!upstream?.ok) {
 			res.writeHead(404).end();
 			return;

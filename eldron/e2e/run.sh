@@ -188,7 +188,7 @@ GOT=$(js "async () => (await (await fetch('/api/map/markers?withPartners=true&wi
 check "keine Medien auf der Karte ($GOT)" "$([ "$GOT" = "0" ] && echo true || echo false)"
 GOT=$(js "async () => (await (await fetch('/sc-api/mosaics', { credentials: 'include' })).json()).length")
 check "keine Mosaike ($GOT)" "$([ "$GOT" = "0" ] && echo true || echo false)"
-FIRST_MOSAIC=$(node --no-warnings --env-file=$ENV -e "fetch(process.env.PHOTOMOSAIC_TILE_URL.replace(/\\/+$/,'')+'/sessions').then(r=>r.json()).then(s=>console.log(s.find(x=>x.org_id===process.env.SC_ORG_ID&&x.min_lat!=null).id))")
+FIRST_MOSAIC=$(node --no-warnings --env-file=$ENV -e "fetch(process.env.PHOTOMOSAIC_TILE_URL.replace(/\\/+$/,'')+'/sessions',{headers:{'X-Service-Secret':process.env.PHOTOMOSAIC_SERVICE_SECRET??''}}).then(r=>r.json()).then(s=>console.log(s.find(x=>x.org_id===process.env.SC_ORG_ID&&x.min_lat!=null).id))")
 CODE=$(js "async () => (await fetch('/sc-api/mosaics/$FIRST_MOSAIC/tiles/18/136026/87577.webp', { credentials: 'include' })).status")
 check "Mosaik-Kacheln fremder Einsätze sind gesperrt (HTTP $CODE)" "$([ "$CODE" != "200" ] && echo true || echo false)"
 pw close >/dev/null 2>&1

@@ -6,6 +6,8 @@ const require = createRequire("/usr/src/app/server/package.json");
 const sharp = require("sharp") as typeof import("sharp");
 
 const TILES = (process.env.PHOTOMOSAIC_TILE_URL ?? "").replace(/\/+$/, "");
+// Der Kachel-Server liest nur noch mit Secret (Session-Kennungen sind erratbar).
+const AUTH = { headers: { "X-Service-Secret": process.env.PHOTOMOSAIC_SERVICE_SECRET ?? "" } };
 const TILE = 256;
 const MAX_EDGE = 4096;
 
@@ -22,7 +24,7 @@ export type MosaicSession = {
 
 export async function listSessions(org: string): Promise<MosaicSession[]> {
 	if (!TILES) return [];
-	const sessions = (await (await fetch(`${TILES}/sessions`)).json()) as MosaicSession[];
+	const sessions = (await (await fetch(`${TILES}/sessions`, AUTH)).json()) as MosaicSession[];
 	return sessions.filter((s) => s.org_id === org && s.min_lat != null && s.max_lat != null);
 }
 
@@ -56,7 +58,7 @@ export async function renderMosaic(s: MosaicSession, dir: string): Promise<Rende
 	const layers: Array<{ input: Buffer; left: number; top: number }> = [];
 	for (let x = x0; x <= x1; x++) {
 		for (let y = y0; y <= y1; y++) {
-			const res = await fetch(`${TILES}/sessions/${s.id}/tiles/${zoom}/${x}/${y}.webp`).catch(() => null);
+			const res = await fetch(`${TILES}/sessions/${s.id}/tiles/${zoom}/${x}/${y}.webp`, AUTH).catch(() => null);
 			if (res?.ok) layers.push({ input: Buffer.from(await res.arrayBuffer()), left: (x - x0) * TILE, top: (y - y0) * TILE });
 		}
 	}
