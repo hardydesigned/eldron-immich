@@ -7,7 +7,7 @@ function isAllowed(value: string): boolean {
     if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
       return url.protocol === 'http:' || url.protocol === 'https:';
     }
-    return url.protocol === 'https:' && /(^|\.)sentrycommand\.com$/.test(url.hostname);
+    return url.protocol === 'https:' && /(^|\.)(sentrycommand\.com|eldron\.cloud)$/.test(url.hostname);
   } catch {
     return false;
   }
