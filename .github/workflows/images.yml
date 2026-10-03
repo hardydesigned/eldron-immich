@@ -21,11 +21,14 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    # SWR (Telekom): nur mit hinterlegtem Zugang, Tag stg-<commit> für die Staging-Stufe
+    env:
+      SWR_ENABLED: ${{ secrets.SWR_USERNAME != '' }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { name: immich-server, context: ., file: eldron/Dockerfile }
+          - { name: immich-server, swr: immich-server, context: ., file: eldron/Dockerfile }
     steps:
       - uses: actions/checkout@v4
 
@@ -42,6 +45,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: docker/login-action@v3
+        if: env.SWR_ENABLED == 'true' && github.ref_name == 'staging'
+        with:
+          registry: swr.eu-de.otc.t-systems.com
+          username: ${{ secrets.SWR_USERNAME }}
+          password: ${{ secrets.SWR_PASSWORD }}
+
       - uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
@@ -50,9 +60,12 @@ jobs:
             IMMICH_VERSION=${{ steps.version.outputs.immich }}
             SOURCE_COMMIT=${{ github.sha }}
           push: true
+          # SWR nimmt keinen OCI-Index mit Herkunftsangaben an
+          provenance: false
           tags: |
             ghcr.io/${{ github.repository }}/${{ matrix.name }}:${{ github.sha }}
             ghcr.io/${{ github.repository }}/${{ matrix.name }}:${{ github.ref_name == 'main' && 'prod' || 'staging' }}
+            ${{ env.SWR_ENABLED == 'true' && github.ref_name == 'staging' && matrix.swr && format('swr.eu-de.otc.t-systems.com/eldron/{0}:stg-{1}', matrix.swr, github.sha) || '' }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
           cache-from: type=gha,scope=${{ matrix.name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.name }}
