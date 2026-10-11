@@ -8,6 +8,7 @@
   import { timeToLoadTheMap } from '$lib/constants';
   import { assetViewerManager } from '$lib/managers/asset-viewer-manager.svelte';
   import { authManager } from '$lib/managers/auth-manager.svelte';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { featureFlagsManager } from '$lib/managers/feature-flags-manager.svelte';
   import { Route } from '$lib/route';
   import { locale } from '$lib/stores/preferences.store';
@@ -42,7 +43,7 @@
 
   let { asset, currentAlbum = null }: Props = $props();
 
-  let isOwner = $derived(authManager.authenticated && authManager.user.id === asset.ownerId);
+  let isOwner = $derived(authManager.authenticated && authManager.user.id === asset.ownerId && !isRestricted());
   let latlng = $derived(
     (() => {
       const lat = asset.exifInfo?.latitude;

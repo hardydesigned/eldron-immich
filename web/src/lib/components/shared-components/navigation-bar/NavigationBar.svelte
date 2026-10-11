@@ -17,6 +17,7 @@
   import { notificationManager } from '$lib/stores/notification-manager.svelte';
   import { sidebarStore } from '$lib/stores/sidebar.svelte';
   import { scReturnUrl } from '$lib/utils/sc-return';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { ActionButton, Button, IconButton } from '@immich/ui';
   import { mdiBellBadge, mdiBellOutline, mdiMagnify, mdiMenu, mdiTrayArrowUp } from '@mdi/js';
   import { onMount } from 'svelte';
@@ -111,10 +112,11 @@
           />
         {/if}
 
-        {#if !page.url.pathname.includes('/admin') && onUploadClick}
+        {#if !page.url.pathname.includes('/admin') && onUploadClick && !isRestricted()}
           <Button
             leadingIcon={mdiTrayArrowUp}
             onclick={onUploadClick}
+            data-testid="sc-upload-button"
             class="hidden lg:flex"
             variant="ghost"
             size="medium"

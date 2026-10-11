@@ -7,6 +7,7 @@
   import { Button, modalManager } from '@immich/ui';
   import { mdiLockOpenVariantOutline, mdiLockOutline } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   interface Props {
     onVisibilitySet: OnSetVisibility;
@@ -50,21 +51,23 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption
-    onClick={setLockedVisibility}
-    text={unlock ? $t('move_off_locked_folder') : $t('move_to_locked_folder')}
-    icon={unlock ? mdiLockOpenVariantOutline : mdiLockOutline}
-  />
-{:else}
-  <Button
-    leadingIcon={unlock ? mdiLockOpenVariantOutline : mdiLockOutline}
-    disabled={loading}
-    size="medium"
-    color="secondary"
-    variant="ghost"
-    onclick={setLockedVisibility}
-  >
-    {unlock ? $t('move_off_locked_folder') : $t('move_to_locked_folder')}
-  </Button>
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption
+      onClick={setLockedVisibility}
+      text={unlock ? $t('move_off_locked_folder') : $t('move_to_locked_folder')}
+      icon={unlock ? mdiLockOpenVariantOutline : mdiLockOutline}
+    />
+  {:else}
+    <Button
+      leadingIcon={unlock ? mdiLockOpenVariantOutline : mdiLockOutline}
+      disabled={loading}
+      size="medium"
+      color="secondary"
+      variant="ghost"
+      onclick={setLockedVisibility}
+    >
+      {unlock ? $t('move_off_locked_folder') : $t('move_to_locked_folder')}
+    </Button>
+  {/if}
 {/if}

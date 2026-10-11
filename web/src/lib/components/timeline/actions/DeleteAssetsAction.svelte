@@ -8,6 +8,7 @@
   import { IconButton, modalManager } from '@immich/ui';
   import { mdiDeleteForeverOutline, mdiDeleteOutline, mdiTimerSand } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   type Props = {
     onAssetDelete: OnDelete;
@@ -39,24 +40,26 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption text={label} icon={mdiDeleteOutline} onClick={onAction} />
-{:else if loading}
-  <IconButton
-    shape="round"
-    color="secondary"
-    variant="ghost"
-    aria-label={$t('loading')}
-    icon={mdiTimerSand}
-    onclick={() => {}}
-  />
-{:else}
-  <IconButton
-    shape="round"
-    color="secondary"
-    variant="ghost"
-    aria-label={label}
-    icon={mdiDeleteForeverOutline}
-    onclick={onAction}
-  />
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption text={label} icon={mdiDeleteOutline} onClick={onAction} />
+  {:else if loading}
+    <IconButton
+      shape="round"
+      color="secondary"
+      variant="ghost"
+      aria-label={$t('loading')}
+      icon={mdiTimerSand}
+      onclick={() => {}}
+    />
+  {:else}
+    <IconButton
+      shape="round"
+      color="secondary"
+      variant="ghost"
+      aria-label={label}
+      icon={mdiDeleteForeverOutline}
+      onclick={onAction}
+    />
+  {/if}
 {/if}

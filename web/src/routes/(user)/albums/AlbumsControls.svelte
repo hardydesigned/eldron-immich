@@ -24,6 +24,7 @@
     sortOptionsMetadata,
   } from '$lib/utils/album-utils';
   import { Button, IconButton, Text } from '@immich/ui';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import {
     mdiArrowDownThin,
     mdiArrowUpThin,
@@ -128,15 +129,18 @@
 </div>
 
 <!-- Create Album -->
-<Button
-  leadingIcon={mdiPlusBoxOutline}
-  onclick={() => createAlbumAndRedirect()}
-  size="small"
-  variant="ghost"
-  color="secondary"
->
-  <p class="hidden md:block">{$t('create_album')}</p>
-</Button>
+{#if !isRestricted()}
+  <Button
+    leadingIcon={mdiPlusBoxOutline}
+    onclick={() => createAlbumAndRedirect()}
+    size="small"
+    variant="ghost"
+    color="secondary"
+    data-testid="sc-album-create-button"
+  >
+    <p class="hidden md:block">{$t('create_album')}</p>
+  </Button>
+{/if}
 
 <!-- Sort Albums -->
 <Dropdown

@@ -23,6 +23,7 @@
   import { getAssetActions } from '$lib/services/asset.service';
   import { getSharedLink, withoutIcons } from '$lib/utils';
   import type { OnUndoDelete } from '$lib/utils/actions';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { toTimelineAsset } from '$lib/utils/timeline-util';
   import {
     AssetTypeEnum,
@@ -64,8 +65,10 @@
     setPlayOriginalVideo,
   }: Props = $props();
 
-  const isOwner = $derived(authManager.authenticated && asset.ownerId === authManager.user.id);
-  const isAlbumOwner = $derived(authManager.authenticated && album?.albumUsers[0].user.id === authManager.user.id);
+  const isOwner = $derived(authManager.authenticated && asset.ownerId === authManager.user.id && !isRestricted());
+  const isAlbumOwner = $derived(
+    authManager.authenticated && album?.albumUsers[0].user.id === authManager.user.id && !isRestricted(),
+  );
   const isLocked = $derived(asset.visibility === AssetVisibility.Locked);
 
   const { Cast } = $derived(getGlobalActions($t));
@@ -141,7 +144,7 @@
         <ActionMenuItem action={Actions.Download} />
         <ActionMenuItem action={Actions.DownloadOriginal} />
 
-        {#if !isLocked && asset.isTrashed}
+        {#if !isRestricted() && !isLocked && asset.isTrashed}
           <RestoreAction {asset} {onAction} />
         {/if}
 
@@ -163,7 +166,7 @@
             {/if}
           {/if}
         {/if}
-        {#if album}
+        {#if album && !isRestricted()}
           {@const { SetCover } = getAlbumAssetActions($t, album, asset)}
           <ActionMenuItem action={SetCover} />
         {/if}

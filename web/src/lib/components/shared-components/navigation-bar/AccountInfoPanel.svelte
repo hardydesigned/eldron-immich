@@ -6,6 +6,7 @@
   import HelpAndFeedbackModal from '$lib/modals/HelpAndFeedbackModal.svelte';
   import { Route } from '$lib/route';
   import { userInteraction } from '$lib/stores/user.svelte';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { getAboutInfo, type ServerAboutResponseDto } from '@immich/sdk';
   import { Button, Icon, IconButton, modalManager } from '@immich/ui';
   import { mdiCog, mdiLogout, mdiPencil, mdiWrench } from '@mdi/js';
@@ -39,19 +40,21 @@
   >
     <div class="relative">
       <UserAvatar user={authManager.user} size="xl" />
-      <div class="absolute inset-e-0 bottom-0 size-6 rounded-full">
-        <IconButton
-          color="primary"
-          icon={mdiPencil}
-          aria-label={$t('edit_avatar')}
-          size="tiny"
-          shape="round"
-          onclick={async () => {
-            onClose?.();
-            await modalManager.show(AvatarEditModal);
-          }}
-        />
-      </div>
+      {#if !isRestricted()}
+        <div class="absolute inset-e-0 bottom-0 size-6 rounded-full">
+          <IconButton
+            color="primary"
+            icon={mdiPencil}
+            aria-label={$t('edit_avatar')}
+            size="tiny"
+            shape="round"
+            onclick={async () => {
+              onClose?.();
+              await modalManager.show(AvatarEditModal);
+            }}
+          />
+        </div>
+      {/if}
     </div>
     <div>
       <p class="text-center text-lg font-medium text-primary">
@@ -61,20 +64,23 @@
     </div>
 
     <div class="flex flex-col gap-1">
-      <Button
-        href={Route.userSettings()}
-        onclick={onClose}
-        size="small"
-        color="secondary"
-        variant="ghost"
-        shape="round"
-        class="border hover:bg-immich-primary/10 dark:border-immich-dark-gray dark:bg-gray-500 dark:text-white dark:hover:bg-immich-dark-primary/50"
-      >
-        <div class="flex place-content-center place-items-center gap-2 px-2 text-center">
-          <Icon icon={mdiCog} size="18" aria-hidden />
-          {$t('account_settings')}
-        </div>
-      </Button>
+      {#if !isRestricted()}
+        <Button
+          href={Route.userSettings()}
+          data-testid="sc-account-settings-link"
+          onclick={onClose}
+          size="small"
+          color="secondary"
+          variant="ghost"
+          shape="round"
+          class="border hover:bg-immich-primary/10 dark:border-immich-dark-gray dark:bg-gray-500 dark:text-white dark:hover:bg-immich-dark-primary/50"
+        >
+          <div class="flex place-content-center place-items-center gap-2 px-2 text-center">
+            <Icon icon={mdiCog} size="18" aria-hidden />
+            {$t('account_settings')}
+          </div>
+        </Button>
+      {/if}
       {#if authManager.user.isAdmin}
         <Button
           href={Route.systemSettings()}
@@ -96,13 +102,16 @@
   </div>
 
   <div class="mb-4 flex flex-col">
-    <Button
-      class="m-1 mx-4 rounded-none rounded-b-3xl bg-white p-3 dark:bg-immich-dark-primary/10"
-      href={Route.logout()}
-      leadingIcon={mdiLogout}
-      variant="ghost"
-      color="secondary">{$t('sign_out')}</Button
-    >
+    {#if !isRestricted()}
+      <Button
+        class="m-1 mx-4 rounded-none rounded-b-3xl bg-white p-3 dark:bg-immich-dark-primary/10"
+        href={Route.logout()}
+      data-testid="sc-logout-link"
+        leadingIcon={mdiLogout}
+        variant="ghost"
+        color="secondary">{$t('sign_out')}</Button
+      >
+    {/if}
 
     <button
       type="button"

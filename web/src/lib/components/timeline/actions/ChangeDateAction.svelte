@@ -7,6 +7,7 @@
   import { mdiCalendarEditOutline } from '@mdi/js';
   import { DateTime } from 'luxon';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   type Props = {
     menuItem?: boolean;
@@ -27,6 +28,8 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption text={$t('change_date')} icon={mdiCalendarEditOutline} onClick={handleChangeDate} />
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption text={$t('change_date')} icon={mdiCalendarEditOutline} onClick={handleChangeDate} />
+  {/if}
 {/if}

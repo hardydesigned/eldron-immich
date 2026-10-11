@@ -31,11 +31,13 @@ import { downloadArchive } from '$lib/utils/asset-utils';
 import { openFileUploadDialog } from '$lib/utils/file-uploader';
 import { handleError } from '$lib/utils/handle-error';
 import { getFormatter } from '$lib/utils/i18n';
+import { isRestricted } from '$lib/utils/sc-restrictions';
 
 export const getAlbumsActions = ($t: MessageFormatter) => {
   const Create: ActionItem = {
     title: $t('create_album'),
     icon: mdiPlusBoxOutline,
+    $if: () => !isRestricted(),
     onAction: () => createAlbumAndRedirect(),
   };
 
@@ -48,7 +50,7 @@ export const getAlbumActions = ($t: MessageFormatter, album: AlbumResponseDto) =
   const Share: ActionItem = {
     title: $t('share'),
     icon: mdiShareVariantOutline,
-    $if: () => isOwned,
+    $if: () => isOwned && !isRestricted(),
     onAction: () => modalManager.show(AlbumOptionsModal, { album }),
   };
 
@@ -56,6 +58,7 @@ export const getAlbumActions = ($t: MessageFormatter, album: AlbumResponseDto) =
     title: $t('invite_people'),
     icon: mdiPlus,
     color: 'primary',
+    $if: () => !isRestricted(),
     onAction: () => modalManager.show(AlbumAddUsersModal, { album }),
   };
 
@@ -63,6 +66,7 @@ export const getAlbumActions = ($t: MessageFormatter, album: AlbumResponseDto) =
     title: $t('create_link'),
     icon: mdiLink,
     color: 'primary',
+    $if: () => !isRestricted(),
     onAction: () => modalManager.show(SharedLinkCreateModal, { albumId: album.id }),
   };
 
@@ -73,6 +77,7 @@ export const getAlbumAssetActions = ($t: MessageFormatter, album: AlbumResponseD
   const SetCover: ActionItem = {
     title: $t('set_as_album_cover'),
     icon: mdiImageOutline,
+    $if: () => !isRestricted(),
     onAction: () => handleUpdateThumbnail(album, asset.id),
   };
 
@@ -84,7 +89,7 @@ export const getAlbumAssetsActions = ($t: MessageFormatter, album: AlbumResponse
     title: $t('add_assets'),
     color: 'primary',
     icon: mdiPlusBoxOutline,
-    $if: () => assets.length > 0,
+    $if: () => !isRestricted() && assets.length > 0,
     onAction: () =>
       addAssetsToAlbums(
         [album.id],
@@ -97,6 +102,7 @@ export const getAlbumAssetsActions = ($t: MessageFormatter, album: AlbumResponse
     title: $t('select_from_computer'),
     description: $t('album_upload_assets'),
     icon: mdiUpload,
+    $if: () => !isRestricted(),
     onAction: () => void openFileUploadDialog({ albumId: album.id }),
   };
 

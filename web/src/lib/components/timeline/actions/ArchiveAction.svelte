@@ -7,6 +7,7 @@
   import { IconButton } from '@immich/ui';
   import { mdiArchiveArrowDownOutline, mdiArchiveArrowUpOutline, mdiTimerSand } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   type Props = {
     onArchive?: OnArchive;
@@ -34,21 +35,23 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption {text} {icon} onClick={handleArchive} />
-{/if}
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption {text} {icon} onClick={handleArchive} />
+  {/if}
 
-{#if !menuItem}
-  {#if loading}
-    <IconButton
-      shape="round"
-      color="secondary"
-      variant="ghost"
-      aria-label={$t('loading')}
-      icon={mdiTimerSand}
-      onclick={() => {}}
-    />
-  {:else}
-    <IconButton shape="round" color="secondary" variant="ghost" aria-label={text} {icon} onclick={handleArchive} />
+  {#if !menuItem}
+    {#if loading}
+      <IconButton
+        shape="round"
+        color="secondary"
+        variant="ghost"
+        aria-label={$t('loading')}
+        icon={mdiTimerSand}
+        onclick={() => {}}
+      />
+    {:else}
+      <IconButton shape="round" color="secondary" variant="ghost" aria-label={text} {icon} onclick={handleArchive} />
+    {/if}
   {/if}
 {/if}

@@ -9,6 +9,7 @@
   import { mdiText } from '@mdi/js';
   import { t } from 'svelte-i18n';
   import MenuOption from '../../shared-components/context-menu/MenuOption.svelte';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   interface Props {
     menuItem?: boolean;
@@ -31,6 +32,8 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption text={$t('change_description')} icon={mdiText} onClick={() => handleUpdateDescription()} />
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption text={$t('change_description')} icon={mdiText} onClick={() => handleUpdateDescription()} />
+  {/if}
 {/if}

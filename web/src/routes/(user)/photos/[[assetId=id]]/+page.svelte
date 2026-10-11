@@ -34,6 +34,7 @@
     type OnUnlink,
   } from '$lib/utils/actions';
   import { openFileUploadDialog } from '$lib/utils/file-uploader';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { getAltText } from '$lib/utils/thumbnail-util';
   import { toTimelineAsset } from '$lib/utils/timeline-util';
   import { AssetVisibility } from '@immich/sdk';
@@ -109,7 +110,7 @@
       <ImageCarousel {items} />
     {/if}
     {#snippet empty()}
-      <EmptyPlaceholder text={$t('no_assets_message')} onClick={() => openFileUploadDialog()} class="mx-auto mt-10" />
+      <EmptyPlaceholder text={$t('no_assets_message')} onClick={isRestricted() ? undefined : () => openFileUploadDialog()} class="mx-auto mt-10" />
     {/snippet}
   </Timeline>
 </UserPageLayout>

@@ -5,6 +5,7 @@
   import { authManager } from '$lib/managers/auth-manager.svelte';
   import { dragAndDropFilesStore } from '$lib/stores/drag-and-drop-files.store';
   import { fileUploadHandler } from '$lib/utils/file-uploader';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { isAlbumsRoute, isLockedFolderRoute } from '$lib/utils/navigation';
   
   import { t } from 'svelte-i18n';
@@ -17,7 +18,7 @@
   let isInternalDrag = false;
 
   const onDragEnter = (e: DragEvent) => {
-    if (e.dataTransfer && e.dataTransfer.types.includes('Files')) {
+    if (!isRestricted() && e.dataTransfer && e.dataTransfer.types.includes('Files')) {
       dragStartTarget = e.target;
     }
   };
@@ -42,7 +43,7 @@
   };
 
   const handleDataTransfer = async (dataTransfer?: DataTransfer | null) => {
-    if (!dataTransfer) {
+    if (!dataTransfer || isRestricted()) {
       return;
     }
 

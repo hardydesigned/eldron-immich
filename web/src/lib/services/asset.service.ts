@@ -54,6 +54,7 @@ import { getAssetMediaUrl, getSharedLink, sleep } from '$lib/utils';
 import { downloadUrl } from '$lib/utils';
 import { handleError } from '$lib/utils/handle-error';
 import { getFormatter } from '$lib/utils/i18n';
+import { isRestricted } from '$lib/utils/sc-restrictions';
 
 export const getAssetBulkActions = ($t: MessageFormatter) => {
   const ownedAssets = assetMultiSelectManager.ownedAssets;
@@ -67,6 +68,7 @@ export const getAssetBulkActions = ($t: MessageFormatter) => {
     title: $t('add_to_album'),
     icon: mdiPlus,
     shortcuts: [{ key: 'l' }],
+    $if: () => !isRestricted(),
     onAction: () =>
       modalManager.show(AssetAddToAlbumModal, { assetIds: assetMultiSelectManager.assets.map((asset) => asset.id) }),
   };
@@ -103,12 +105,13 @@ export const getAssetActions = ($t: MessageFormatter, asset: AssetResponseDto & 
   const sharedLink = getSharedLink();
   const authUser = authManager.authenticated ? authManager.user : undefined;
   const isOwner = !!(authUser && authUser.id === asset.ownerId);
+  const canEdit = isOwner && !isRestricted();
   const smartSearchEnabled = featureFlagsManager.value.smartSearch;
 
   const Share: ActionItem = {
     title: $t('share'),
     icon: mdiShareVariantOutline,
-    $if: () => !!(authUser && !asset.isTrashed && asset.visibility !== AssetVisibility.Locked),
+    $if: () => !!(authUser && !isRestricted() && !asset.isTrashed && asset.visibility !== AssetVisibility.Locked),
     onAction: () => modalManager.show(SharedLinkCreateModal, { assetIds: [asset.id] }),
   };
 
@@ -177,7 +180,7 @@ export const getAssetActions = ($t: MessageFormatter, asset: AssetResponseDto & 
     title: $t('add_to_album'),
     icon: mdiPlus,
     shortcuts: [{ key: 'l' }],
-    $if: () => asset.visibility !== AssetVisibility.Locked && !asset.isTrashed,
+    $if: () => !isRestricted() && asset.visibility !== AssetVisibility.Locked && !asset.isTrashed,
     onAction: () => modalManager.show(AssetAddToAlbumModal, { assetIds: [asset.id] }),
   };
 
@@ -221,7 +224,7 @@ export const getAssetActions = ($t: MessageFormatter, asset: AssetResponseDto & 
   const Tag: ActionItem = {
     title: $t('add_tag'),
     icon: mdiTagPlusOutline,
-    $if: () => authManager.authenticated && authManager.preferences.tags.enabled,
+    $if: () => authManager.authenticated && !isRestricted() && authManager.preferences.tags.enabled,
     onAction: () => modalManager.show(AssetTagModal, { assetIds: [asset.id] }),
     shortcuts: { key: 't' },
   };
@@ -229,7 +232,7 @@ export const getAssetActions = ($t: MessageFormatter, asset: AssetResponseDto & 
   const TagPeople: ActionItem = {
     title: $t('tag_people'),
     icon: mdiFaceRecognition,
-    $if: () => isOwner && asset.type === AssetTypeEnum.Image && !asset.isTrashed,
+    $if: () => canEdit && asset.type === AssetTypeEnum.Image && !asset.isTrashed,
     onAction: () => assetViewerManager.toggleFaceEditMode(),
     shortcuts: { key: 'p' },
   };
@@ -239,7 +242,7 @@ export const getAssetActions = ($t: MessageFormatter, asset: AssetResponseDto & 
     icon: mdiTune,
     $if: () =>
       !sharedLink &&
-      isOwner &&
+      canEdit &&
       asset.type === AssetTypeEnum.Image &&
       !asset.livePhotoVideoId &&
       asset.exifInfo?.projectionType !== ProjectionType.EQUIRECTANGULAR &&
@@ -253,7 +256,7 @@ export const getAssetActions = ($t: MessageFormatter, asset: AssetResponseDto & 
   const SetProfilePicture: ActionItem = {
     title: $t('set_as_profile_picture'),
     icon: mdiAccountCircleOutline,
-    $if: () => asset.type === AssetTypeEnum.Image && asset.visibility !== AssetVisibility.Locked,
+    $if: () => !isRestricted() && asset.type === AssetTypeEnum.Image && asset.visibility !== AssetVisibility.Locked,
     onAction: () => modalManager.show(ProfileImageCropperModal, { asset }),
   };
 
