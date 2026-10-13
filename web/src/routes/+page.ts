@@ -9,7 +9,7 @@ import type { PageLoad } from './$types';
 export const ssr = false;
 export const csr = true;
 
-export const load = (async ({ fetch, url }) => {
+export const load = (async ({ fetch }) => {
   try {
     await init(fetch);
 
@@ -19,7 +19,7 @@ export const load = (async ({ fetch, url }) => {
 
     await authManager.load();
     if (authManager.authenticated) {
-      redirect(307, Route.photos() + url.search);
+      redirect(307, Route.photos());
     }
 
     if (serverConfigManager.value.isInitialized) {

@@ -1,10 +1,9 @@
-import { getStorage, logout } from '@immich/sdk';
+import { getStorage } from '@immich/sdk';
 import { redirect } from '@sveltejs/kit';
 import { DateTime } from 'luxon';
 import { authManager } from '$lib/managers/auth-manager.svelte';
 import { Route } from '$lib/route';
 import { userInteraction } from '$lib/stores/user.svelte';
-import { isScUserMismatch } from '$lib/utils/sc-return';
 
 export interface AuthOptions {
   admin?: true;
@@ -21,12 +20,6 @@ export const authenticate = async (url: URL, options?: AuthOptions) => {
 
   if (!authManager.authenticated) {
     redirect(307, Route.login({ continue: url.pathname + url.search }));
-  }
-
-  if (isScUserMismatch(url, authManager.user.oauthId)) {
-    await logout().catch(() => {});
-    authManager.reset();
-    redirect(307, Route.login({ autoLaunch: 1 }));
   }
 
   if (adminRoute && !authManager.user.isAdmin) {

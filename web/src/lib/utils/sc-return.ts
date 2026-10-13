@@ -1,3 +1,6 @@
+import { getMyUser, logout } from '@immich/sdk';
+import { Route } from '$lib/route';
+
 // Rücksprung nach SentryCommand: die App öffnet ELDRON mit ?sc_return=<ihre Seite>.
 const KEY = 'sc-return-url';
 
@@ -29,4 +32,19 @@ export function scReturnUrl(): string | null {
 export function isScUserMismatch(url: URL, oauthId: string): boolean {
   const scUserId = url.searchParams.get('sc_uid');
   return !!scUserId && scUserId !== oauthId;
+}
+
+export async function endForeignScSession(): Promise<boolean> {
+  const url = new URL(location.href);
+  if (!url.searchParams.has('sc_uid')) {
+    return false;
+  }
+  const user = await getMyUser().catch(() => undefined);
+  if (!user || !isScUserMismatch(url, user.oauthId)) {
+    return false;
+  }
+  rememberScReturn(url);
+  await logout().catch(() => {});
+  location.assign(Route.login({ autoLaunch: 1 }));
+  return true;
 }
