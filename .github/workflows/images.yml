@@ -21,7 +21,7 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
-    # SWR (Telekom): nur mit hinterlegtem Zugang, Tag stg-<commit> für die Staging-Stufe
+    # SWR (Telekom): staging → stg-<commit>, main → prod-<commit>. GHCR-Tags bleiben getrennt.
     env:
       SWR_ENABLED: ${{ secrets.SWR_USERNAME != '' }}
     strategy:
@@ -46,7 +46,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: docker/login-action@v3
-        if: env.SWR_ENABLED == 'true' && github.ref_name == 'staging'
+        if: env.SWR_ENABLED == 'true' && (github.ref_name == 'staging' || github.ref_name == 'main')
         with:
           registry: swr.eu-de.otc.t-systems.com
           username: ${{ secrets.SWR_USERNAME }}
@@ -65,7 +65,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}/${{ matrix.name }}:${{ github.sha }}
             ghcr.io/${{ github.repository }}/${{ matrix.name }}:${{ github.ref_name == 'main' && 'prod' || 'staging' }}
-            ${{ env.SWR_ENABLED == 'true' && github.ref_name == 'staging' && matrix.swr && format('swr.eu-de.otc.t-systems.com/eldron/{0}:stg-{1}', matrix.swr, github.sha) || '' }}
+            ${{ env.SWR_ENABLED == 'true' && matrix.swr && (github.ref_name == 'staging' || github.ref_name == 'main') && format('swr.eu-de.otc.t-systems.com/eldron/{0}:{1}-{2}', matrix.swr, github.ref_name == 'main' && 'prod' || 'stg', github.sha) || '' }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
           cache-from: type=gha,scope=${{ matrix.name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.name }}
