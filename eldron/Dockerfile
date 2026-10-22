@@ -25,6 +25,8 @@ RUN --mount=type=cache,id=pnpm,target=/buildcache/pnpm-store pnpm --filter immic
 
 FROM ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
 ARG SOURCE_COMMIT
+# Node-Sicherheitsupdates ohne Immich-Update: das Basis-Image baut selbst auf node:24-trixie-slim auf.
+COPY --from=node:24-trixie-slim /usr/local/bin/node /usr/local/bin/node
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends rclone fuse3 \
 	&& rm -rf /var/lib/apt/lists/*

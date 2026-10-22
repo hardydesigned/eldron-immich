@@ -15,7 +15,7 @@ PORT=$(grep -E '^HOST_PORT=' .env | cut -d= -f2)
 export SOURCE_COMMIT
 SOURCE_COMMIT=$(git rev-parse HEAD)
 DC=(docker compose -p "eldron-immich-$STAGE")
-"${DC[@]}" build immich-server
+"${DC[@]}" build --pull immich-server
 "${DC[@]}" up -d --remove-orphans
 # Die Caddyfile hängt als Bind-Mount am Container. `git reset --hard` legt sie neu
 # an, der laufende Proxy zeigt aber weiter auf die alte Datei — ohne Neuanlage
