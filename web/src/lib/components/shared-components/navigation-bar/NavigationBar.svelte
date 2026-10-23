@@ -84,7 +84,7 @@
       <a
         data-sveltekit-preload-data="hover"
         href={scReturn ?? Route.photos()}
-        title={scReturn ? 'Zurück zu SentryCommand' : undefined}
+        title={scReturn ? 'Zurück zu ELDRON' : undefined}
         data-testid="eldron-home-link"
       >
         <ScLogo variant={mediaQueryManager.isFullSidebar ? 'inline' : 'icon'} class="max-md:h-12" />

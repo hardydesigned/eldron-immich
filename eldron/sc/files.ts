@@ -1,7 +1,7 @@
 // Dateiteil des Abgleichs: Bibliotheken, App-Uploads, Fotomosaike, Positionen, Flugspuren.
 // Alles andere (Konten, Freigaben, Einsatz-Alben) macht SentryCommand selbst über die Immich-API.
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { api, durationMs, listLibraryAssets, login, waitForQueues, type Asset, type Auth } from "./lib/immich.ts";
 import { buildTrack, droneForVideo, recordingWindow } from "./lib/tracks.ts";
 import { listSessions, renderMosaic, writeSidecar } from "./lib/mosaic.ts";
@@ -26,6 +26,19 @@ const CONTENT_TYPES: Record<string, string> = {
 	"video/webm": ".webm",
 };
 
+/** Gelöschte App-Uploads verschwinden aus der Bibliothek: Die Datei weg, der anschließende Scan nimmt das Asset heraus. */
+function pruneDeletedUploads(media: MediaFile[], uploadRoot: string) {
+	const ids = new Set(media.filter((item) => item.kind === "upload").map((item) => item.id));
+	for (const file of readdirSync(uploadRoot)) {
+		if (!statSync(`${uploadRoot}/${file}`).isFile()) continue;
+		const id = file.replace(/\.xmp$/, "").replace(/\.[^.]+$/, "");
+		if (!ids.has(id)) {
+			rmSync(`${uploadRoot}/${file}`);
+			console.log(`[files] Gelöschter Upload entfernt: ${file}`);
+		}
+	}
+}
+
 /**
  * App-Uploads liegen unter ihrer Medien-Id – so findet SentryCommand sie ohne
  * Namensabgleich wieder.
@@ -36,6 +49,7 @@ const CONTENT_TYPES: Record<string, string> = {
  */
 async function downloadUploads(media: MediaFile[], uploadRoot: string): Promise<number> {
 	mkdirSync(uploadRoot, { recursive: true });
+	pruneDeletedUploads(media, uploadRoot);
 	const present = readdirSync(uploadRoot);
 	let count = 0;
 	for (const item of media) {

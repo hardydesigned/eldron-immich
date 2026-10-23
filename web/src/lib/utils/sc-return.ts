@@ -23,6 +23,12 @@ export function rememberScReturn(url: URL): void {
   }
 }
 
+// Nur der Rücksprung dieses Aufrufs, nie ein früher gemerkter: Das Abmelden muss zu seiner Seite zurück.
+export function scReturnTarget(url: URL): string | null {
+  const value = url.searchParams.get('sc_return');
+  return value && isAllowed(value) ? value : null;
+}
+
 export function scReturnUrl(): string | null {
   const value = localStorage.getItem(KEY);
   return value && isAllowed(value) ? value : null;
