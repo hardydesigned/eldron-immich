@@ -69,20 +69,31 @@ async function downloadUploads(media: MediaFile[], uploadRoot: string): Promise<
 	return count;
 }
 
+/**
+ * Eine Bibliothek gehört über ihren Importpfad zur Organisation, nicht über den Namen.
+ * Wer die Organisation umbenennt, bekommt nur neue Namen – Löschen hieße, jedes Asset
+ * samt Alben, Gesichtern und Positionen zu verlieren und neu einzulesen.
+ */
 async function ensureLibraries(admin: Auth, orgName: string, ownerId: string, s3Root: string, uploadRoot: string) {
 	const wanted = [
 		{ name: `${orgName} · S3`, importPaths: [s3Root], exclusionPatterns: ["**/*.gz", "**/*_merged.jpg"] },
 		{ name: `${orgName} · App-Uploads`, importPaths: [uploadRoot], exclusionPatterns: [] },
 	];
-	const libraries = await api<Array<{ id: string; name: string; ownerId: string }>>("GET", "/libraries", admin);
+	const libraries = await api<Array<{ id: string; name: string; ownerId: string; importPaths: string[] }>>("GET", "/libraries", admin);
 	const mine = libraries.filter((l) => l.ownerId === ownerId);
-	for (const lib of mine.filter((l) => !wanted.some((w) => w.name === l.name))) {
+	const matches = (lib: (typeof mine)[number], want: (typeof wanted)[number]) =>
+		lib.importPaths.length === 1 && lib.importPaths[0] === want.importPaths[0];
+	for (const lib of mine.filter((l) => !wanted.some((w) => matches(l, w)))) {
 		await api("DELETE", `/libraries/${lib.id}`, admin);
 		console.log(`[files] Bibliothek entfernt: ${lib.name}`);
 	}
 	const ids: string[] = [];
 	for (const want of wanted) {
-		const found = mine.find((l) => l.name === want.name);
+		const found = mine.find((l) => matches(l, want));
+		if (found && found.name !== want.name) {
+			await api("PUT", `/libraries/${found.id}`, admin, { name: want.name });
+			console.log(`[files] Bibliothek umbenannt: ${found.name} → ${want.name}`);
+		}
 		const id = found?.id ?? (await api<{ id: string }>("POST", "/libraries", admin, { ...want, ownerId })).id;
 		await api("POST", `/libraries/${id}/scan`, admin);
 		ids.push(id);
