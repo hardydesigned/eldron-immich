@@ -12,6 +12,7 @@ import { page } from '$app/state';
 import { eventManager } from '$lib/managers/event-manager.svelte';
 import { Route } from '$lib/route';
 import { isSharedLinkRoute } from '$lib/utils/navigation';
+import { endForeignScSession } from '$lib/utils/sc-return';
 
 class AuthManager {
   isPurchased = $state(false);
@@ -54,6 +55,10 @@ class AuthManager {
 
     if (!this.#hasAuthCookie()) {
       return;
+    }
+
+    if (await endForeignScSession()) {
+      return new Promise<void>(() => {});
     }
 
     return this.refresh();

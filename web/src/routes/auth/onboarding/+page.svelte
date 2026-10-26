@@ -1,42 +1,20 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import OnboardingBackup from './OnboardingBackup.svelte';
   import OnboardingCard from './OnboardingCard.svelte';
   import OnboardingHello from './OnboardingHello.svelte';
-  import OnboardingLocale from './OnboardingLanguage.svelte';
-  import OnboardingMobileApp from './OnboardingMobileApp.svelte';
-  import OnboardingServerPrivacy from './OnboardingServerPrivacy.svelte';
-  import OnboardingStorageTemplate from './OnboardingStorageTemplate.svelte';
   import OnboardingTheme from './OnboardingTheme.svelte';
-  import OnboardingUserPrivacy from './OnboardingUserPrivacy.svelte';
   import { authManager } from '$lib/managers/auth-manager.svelte';
   import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
-  import { systemConfigManager } from '$lib/managers/system-config-manager.svelte';
   import { Route } from '$lib/route';
   import { OnboardingRole } from '$lib/types';
   import { setUserOnboarding, updateAdminOnboarding } from '@immich/sdk';
-  import {
-    mdiCellphoneArrowDownVariant,
-    mdiCloudCheckOutline,
-    mdiHarddisk,
-    mdiIncognito,
-    mdiThemeLightDark,
-    mdiTranslate,
-  } from '@mdi/js';
-  import { onMount } from 'svelte';
+  import { mdiThemeLightDark } from '@mdi/js';
   import { t } from 'svelte-i18n';
 
   interface OnboardingStep {
     name: string;
-    component:
-      | typeof OnboardingHello
-      | typeof OnboardingTheme
-      | typeof OnboardingStorageTemplate
-      | typeof OnboardingServerPrivacy
-      | typeof OnboardingUserPrivacy
-      | typeof OnboardingMobileApp
-      | typeof OnboardingLocale;
+    component: typeof OnboardingHello | typeof OnboardingTheme;
     role: OnboardingRole;
     title?: string;
     icon?: string;
@@ -50,48 +28,6 @@
       role: OnboardingRole.USER,
       title: $t('theme'),
       icon: mdiThemeLightDark,
-    },
-    {
-      name: 'language',
-      component: OnboardingLocale,
-      role: OnboardingRole.USER,
-      title: $t('language'),
-      icon: mdiTranslate,
-    },
-    {
-      name: 'server_privacy',
-      component: OnboardingServerPrivacy,
-      role: OnboardingRole.SERVER,
-      title: $t('server_privacy'),
-      icon: mdiIncognito,
-    },
-    {
-      name: 'user_privacy',
-      component: OnboardingUserPrivacy,
-      role: OnboardingRole.USER,
-      title: $t('user_privacy'),
-      icon: mdiIncognito,
-    },
-    {
-      name: 'storage_template',
-      component: OnboardingStorageTemplate,
-      role: OnboardingRole.SERVER,
-      title: $t('admin.storage_template_settings'),
-      icon: mdiHarddisk,
-    },
-    {
-      name: 'backup',
-      component: OnboardingBackup,
-      role: OnboardingRole.SERVER,
-      title: $t('admin.backup_onboarding_title'),
-      icon: mdiCloudCheckOutline,
-    },
-    {
-      name: 'mobile_app',
-      component: OnboardingMobileApp,
-      role: OnboardingRole.USER,
-      title: $t('mobile_app'),
-      icon: mdiCellphoneArrowDownVariant,
     },
   ]);
 
@@ -152,12 +88,6 @@
   };
 
   const OnboardingStep = $derived(onboardingSteps[index].component);
-
-  onMount(async () => {
-    if (userRole === OnboardingRole.SERVER) {
-      await systemConfigManager.init();
-    }
-  });
 </script>
 
 <section id="onboarding-page" class="flex min-h-dvh min-w-dvw p-4">

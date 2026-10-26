@@ -34,6 +34,7 @@ import { authManager } from '$lib/managers/auth-manager.svelte';
 import { featureFlagsManager } from '$lib/managers/feature-flags-manager.svelte';
 import { Route } from '$lib/route';
 import { copyToClipboard } from '$lib/utils';
+import { isRestricted } from '$lib/utils/sc-restrictions';
 
 export const getPagesProvider = ($t: MessageFormatter) => {
   const adminPages: ActionItem[] = [
@@ -110,7 +111,7 @@ export const getPagesProvider = ($t: MessageFormatter) => {
       title: $t('shared_links'),
       icon: mdiLink,
       onAction: () => goto(Route.sharedLinks()),
-      $if: () => authManager.authenticated && authManager.preferences.sharedLinks.enabled,
+      $if: () => authManager.authenticated && !isRestricted() && authManager.preferences.sharedLinks.enabled,
     },
     {
       title: $t('recently_added'),
@@ -122,7 +123,7 @@ export const getPagesProvider = ($t: MessageFormatter) => {
       title: $t('sharing'),
       icon: mdiAccountMultipleOutline,
       onAction: () => goto(Route.sharing()),
-      $if: () => authManager.authenticated,
+      $if: () => authManager.authenticated && !isRestricted(),
     },
     {
       title: $t('favorites'),
@@ -155,31 +156,31 @@ export const getPagesProvider = ($t: MessageFormatter) => {
       title: $t('utilities'),
       icon: mdiToolboxOutline,
       onAction: () => goto(Route.utilities()),
-      $if: () => authManager.authenticated,
+      $if: () => authManager.authenticated && !isRestricted(),
     },
     {
       title: $t('archive'),
       icon: mdiArchiveArrowDownOutline,
       onAction: () => goto(Route.archive()),
-      $if: () => authManager.authenticated,
+      $if: () => authManager.authenticated && !isRestricted(),
     },
     {
       title: $t('locked_folder'),
       icon: mdiLockOutline,
       onAction: () => goto(Route.locked()),
-      $if: () => authManager.authenticated,
+      $if: () => authManager.authenticated && !isRestricted(),
     },
     {
       title: $t('trash'),
       icon: mdiTrashCanOutline,
       onAction: () => goto(Route.trash()),
-      $if: () => authManager.authenticated && featureFlagsManager.value.trash,
+      $if: () => authManager.authenticated && !isRestricted() && featureFlagsManager.value.trash,
     },
     {
       title: $t('admin.user_settings'),
       icon: mdiCog,
       onAction: () => goto(Route.userSettings()),
-      $if: () => authManager.authenticated,
+      $if: () => authManager.authenticated && !isRestricted(),
     },
   ].map((route) => ({ $if: () => authManager.authenticated, ...route }));
 
@@ -188,16 +189,19 @@ export const getPagesProvider = ($t: MessageFormatter) => {
       title: $t('review_duplicates'),
       icon: mdiContentDuplicate,
       onAction: () => goto(Route.duplicatesUtility()),
+      $if: () => !isRestricted(),
     },
     {
       title: $t('review_large_files'),
       icon: mdiImageSizeSelectLarge,
       onAction: () => goto(Route.largeFileUtility()),
+      $if: () => !isRestricted(),
     },
     {
       title: $t('manage_geolocation'),
       icon: mdiCrosshairsGps,
       onAction: () => goto(Route.geolocationUtility()),
+      $if: () => !isRestricted(),
     },
     {
       title: $t('workflows'),

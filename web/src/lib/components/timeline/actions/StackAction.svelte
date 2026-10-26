@@ -6,6 +6,7 @@
   import { toTimelineAsset } from '$lib/utils/timeline-util';
   import { mdiImageMultipleOutline, mdiImageOffOutline } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   interface Props {
     unstack?: boolean;
@@ -38,8 +39,10 @@
   };
 </script>
 
-{#if unstack}
-  <MenuOption text={$t('unstack')} icon={mdiImageOffOutline} onClick={handleUnstack} />
-{:else}
-  <MenuOption text={$t('stack')} icon={mdiImageMultipleOutline} onClick={handleStack} />
+{#if !isRestricted()}
+  {#if unstack}
+    <MenuOption text={$t('unstack')} icon={mdiImageOffOutline} onClick={handleUnstack} />
+  {:else}
+    <MenuOption text={$t('stack')} icon={mdiImageMultipleOutline} onClick={handleStack} />
+  {/if}
 {/if}

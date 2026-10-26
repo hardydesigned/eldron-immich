@@ -6,6 +6,7 @@
   import { IconButton, modalManager } from '@immich/ui';
   import { mdiTagMultipleOutline } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   interface Props {
     menuItem?: boolean;
@@ -17,6 +18,9 @@
   const icon = mdiTagMultipleOutline;
 
   const handleTagAssets = async () => {
+    if (isRestricted()) {
+      return;
+    }
     const assets = assetMultiSelectManager.ownedAssets;
     const didUpdate = await modalManager.show(AssetTagModal, { assetIds: assets.map(({ id }) => id) });
     if (didUpdate) {
@@ -27,10 +31,10 @@
 
 <svelte:document use:shortcut={{ shortcut: { key: 't' }, onShortcut: handleTagAssets }} />
 
-{#if menuItem}
+{#if !isRestricted() && menuItem}
   <MenuOption {text} {icon} onClick={handleTagAssets} />
 {/if}
 
-{#if !menuItem}
+{#if !isRestricted() && !menuItem}
   <IconButton shape="round" color="secondary" variant="ghost" aria-label={text} {icon} onclick={handleTagAssets} />
 {/if}

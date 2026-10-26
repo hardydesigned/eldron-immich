@@ -6,6 +6,7 @@
   import { IconButton, modalManager, toastManager } from '@immich/ui';
   import { mdiDeleteOutline, mdiImageRemoveOutline } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   interface Props {
     album: AlbumResponseDto;
@@ -47,15 +48,17 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption text={$t('remove_from_album')} icon={mdiImageRemoveOutline} onClick={removeFromAlbum} />
-{:else}
-  <IconButton
-    shape="round"
-    color="secondary"
-    variant="ghost"
-    aria-label={$t('remove_from_album')}
-    icon={mdiDeleteOutline}
-    onclick={removeFromAlbum}
-  />
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption text={$t('remove_from_album')} icon={mdiImageRemoveOutline} onClick={removeFromAlbum} />
+  {:else}
+    <IconButton
+      shape="round"
+      color="secondary"
+      variant="ghost"
+      aria-label={$t('remove_from_album')}
+      icon={mdiDeleteOutline}
+      onclick={removeFromAlbum}
+    />
+  {/if}
 {/if}

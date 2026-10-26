@@ -48,6 +48,7 @@
   import { SlideshowNavigation, SlideshowState, slideshowStore } from '$lib/stores/slideshow.store';
   import { handlePromiseError } from '$lib/utils';
   import { handleError } from '$lib/utils/handle-error';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { isAlbumsRoute, navigate, type AssetGridRouteSearchParams } from '$lib/utils/navigation';
   import { AlbumUserRole, AssetVisibility, getAlbumInfo, updateAlbumInfo, type AlbumResponseDto } from '@immich/sdk';
   import {
@@ -244,7 +245,8 @@
 
   onDestroy(() => activityManager.reset());
 
-  const isOwned = $derived(album.albumUsers[0].user.id === authManager.user.id);
+  const restricted = isRestricted();
+  const isOwned = $derived(album.albumUsers[0].user.id === authManager.user.id && !restricted);
 
   let showActivityStatus = $derived(
     album.albumUsers.length > 1 &&
@@ -252,7 +254,9 @@
       (album.isActivityEnabled || activityManager.commentCount > 0),
   );
   const isEditor = $derived(
-    album.albumUsers.find(({ user: { id } }) => id === authManager.user.id)?.role === AlbumUserRole.Editor || isOwned,
+    !restricted &&
+      (album.albumUsers.find(({ user: { id } }) => id === authManager.user.id)?.role === AlbumUserRole.Editor ||
+        isOwned),
   );
 
   let albumHasViewers = $derived(album.albumUsers.some(({ role }) => role === AlbumUserRole.Viewer));
@@ -426,7 +430,7 @@
             </section>
           {/if}
 
-          {#if album.assetCount === 0}
+          {#if album.assetCount === 0 && !restricted}
             <section id="empty-album" class="mt-50 flex place-content-center place-items-center">
               <div class="w-75">
                 <p class="text-xs uppercase dark:text-immich-dark-fg">{$t('add_photos')}</p>
@@ -463,7 +467,9 @@
       <AssetSelectControlBar>
         {@const Actions = getAssetBulkActions($t)}
         <CommandPaletteDefaultProvider name={$t('assets')} actions={Object.values(Actions)} />
-        <CreateSharedLink />
+        {#if !restricted}
+          <CreateSharedLink />
+        {/if}
         <SelectAllAssets {timelineManager} assetInteraction={assetMultiSelectManager} />
         <ActionButton action={Actions.AddToAlbum} />
         {#if assetMultiSelectManager.isAllUserOwned}
@@ -485,7 +491,7 @@
             />
             <SetVisibilityAction menuItem onVisibilitySet={handleSetVisibility} />
           {/if}
-          {#if assetMultiSelectManager.assets.length === 1}
+          {#if !restricted && assetMultiSelectManager.assets.length === 1}
             <MenuOption
               text={$t('set_as_album_cover')}
               icon={mdiImageOutline}

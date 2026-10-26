@@ -16,7 +16,7 @@ class NotificationStore {
 
   async refresh() {
     try {
-      this.notifications = await getNotifications({ unread: true });
+      this.notifications = (await getNotifications({ unread: true })) ?? [];
     } catch (error) {
       const translate = get(t);
       handleError(error, translate('errors.failed_to_load_notifications'));

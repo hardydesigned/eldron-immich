@@ -31,6 +31,7 @@
     type OnUnlink,
   } from '$lib/utils/actions';
   import { openFileUploadDialog } from '$lib/utils/file-uploader';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { AssetVisibility, AssetOrderBy } from '@immich/sdk';
   import { ActionButton, CommandPaletteDefaultProvider } from '@immich/ui';
   import { mdiDotsVertical } from '@mdi/js';
@@ -100,7 +101,7 @@
     withStacked
   >
     {#snippet empty()}
-      <EmptyPlaceholder text={$t('no_assets_message')} onClick={() => openFileUploadDialog()} class="mx-auto mt-10" />
+      <EmptyPlaceholder text={$t('no_assets_message')} onClick={isRestricted() ? undefined : () => openFileUploadDialog()} class="mx-auto mt-10" />
     {/snippet}
   </Timeline>
 </UserPageLayout>

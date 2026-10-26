@@ -20,6 +20,7 @@
   import { searchStore } from '$lib/stores/search.svelte';
   import { handlePromiseError } from '$lib/utils';
   import { deleteAssets, updateStackedAssetInTimeline } from '$lib/utils/actions';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { archiveAssets, selectAllAssets, stackAssets } from '$lib/utils/asset-utils';
   import { AssetVisibility } from '@immich/sdk';
   import { isModalOpen, modalManager } from '@immich/ui';
@@ -132,13 +133,15 @@
     }
 
     if (assetInteraction.selectionActive) {
-      shortcuts.push(
-        { shortcut: { key: 'Delete' }, onShortcut: onDelete },
-        { shortcut: { key: 'Delete', shift: true }, onShortcut: () => trashOrDelete(true) },
-        { shortcut: { key: 'D', ctrl: true }, onShortcut: () => assetInteraction.clear() },
-        { shortcut: { key: 's' }, onShortcut: () => onStackAssets() },
-        { shortcut: { key: 'a', shift: true }, onShortcut: toggleArchive },
-      );
+      shortcuts.push({ shortcut: { key: 'D', ctrl: true }, onShortcut: () => assetInteraction.clear() });
+      if (!isRestricted()) {
+        shortcuts.push(
+          { shortcut: { key: 'Delete' }, onShortcut: onDelete },
+          { shortcut: { key: 'Delete', shift: true }, onShortcut: () => trashOrDelete(true) },
+          { shortcut: { key: 's' }, onShortcut: () => onStackAssets() },
+          { shortcut: { key: 'a', shift: true }, onShortcut: toggleArchive },
+        );
+      }
     } else {
       // conflicting shortcuts
       shortcuts.push({ shortcut: { key: 'D', shift: true }, onShortcut: () => setFocusTo('later', 'day') });

@@ -10,6 +10,7 @@
   import { IconButton } from '@immich/ui';
   import { mdiLinkOff, mdiMotionPlayOutline, mdiTimerSand } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   interface Props {
     onLink: OnLink;
@@ -68,21 +69,23 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption {text} {icon} {onClick} />
-{/if}
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption {text} {icon} {onClick} />
+  {/if}
 
-{#if !menuItem}
-  {#if loading}
-    <IconButton
-      shape="round"
-      color="secondary"
-      variant="ghost"
-      aria-label={$t('loading')}
-      icon={mdiTimerSand}
-      onclick={() => {}}
-    />
-  {:else}
-    <IconButton shape="round" color="secondary" variant="ghost" aria-label={text} {icon} onclick={onClick} />
+  {#if !menuItem}
+    {#if loading}
+      <IconButton
+        shape="round"
+        color="secondary"
+        variant="ghost"
+        aria-label={$t('loading')}
+        icon={mdiTimerSand}
+        onclick={() => {}}
+      />
+    {:else}
+      <IconButton shape="round" color="secondary" variant="ghost" aria-label={text} {icon} onclick={onClick} />
+    {/if}
   {/if}
 {/if}

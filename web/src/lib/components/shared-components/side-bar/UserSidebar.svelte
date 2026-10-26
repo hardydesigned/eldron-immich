@@ -6,6 +6,7 @@
   import { featureFlagsManager } from '$lib/managers/feature-flags-manager.svelte';
   import { Route } from '$lib/route';
   import { recentAlbumsDropdown } from '$lib/stores/preferences.store';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
   import { NavbarGroup, NavbarItem } from '@immich/ui';
   import {
     mdiAccount,
@@ -58,16 +59,18 @@
     <NavbarItem title={$t('people')} href={Route.people()} icon={mdiAccountOutline} activeIcon={mdiAccount} />
   {/if}
 
-  {#if authManager.preferences.sharedLinks.enabled && authManager.preferences.sharedLinks.sidebarWeb}
+  {#if !isRestricted() && authManager.preferences.sharedLinks.enabled && authManager.preferences.sharedLinks.sidebarWeb}
     <NavbarItem title={$t('shared_links')} href={Route.sharedLinks()} icon={mdiLink} />
   {/if}
 
-  <NavbarItem
-    title={$t('sharing')}
-    href={Route.sharing()}
-    icon={mdiAccountMultipleOutline}
-    activeIcon={mdiAccountMultiple}
-  />
+  {#if !isRestricted()}
+    <NavbarItem
+      title={$t('sharing')}
+      href={Route.sharing()}
+      icon={mdiAccountMultipleOutline}
+      activeIcon={mdiAccountMultiple}
+    />
+  {/if}
 
   <NavbarGroup title={$t('library')} size="tiny" />
 
@@ -102,18 +105,20 @@
     <NavbarItem title={$t('folders')} href={Route.folders()} icon={{ icon: mdiFolderOutline, flipped: true }} />
   {/if}
 
-  <NavbarItem title={$t('utilities')} href={Route.utilities()} icon={mdiToolboxOutline} activeIcon={mdiToolbox} />
+  {#if !isRestricted()}
+    <NavbarItem title={$t('utilities')} href={Route.utilities()} icon={mdiToolboxOutline} activeIcon={mdiToolbox} />
 
-  <NavbarItem
-    title={$t('archive')}
-    href={Route.archive()}
-    icon={mdiArchiveArrowDownOutline}
-    activeIcon={mdiArchiveArrowDown}
-  />
+    <NavbarItem
+      title={$t('archive')}
+      href={Route.archive()}
+      icon={mdiArchiveArrowDownOutline}
+      activeIcon={mdiArchiveArrowDown}
+    />
 
-  <NavbarItem title={$t('locked_folder')} href={Route.locked()} icon={mdiLockOutline} activeIcon={mdiLock} />
+    <NavbarItem title={$t('locked_folder')} href={Route.locked()} icon={mdiLockOutline} activeIcon={mdiLock} />
+  {/if}
 
-  {#if featureFlagsManager.value.trash}
+  {#if !isRestricted() && featureFlagsManager.value.trash}
     <NavbarItem title={$t('trash')} href={Route.trash()} icon={mdiTrashCanOutline} activeIcon={mdiTrashCan} />
   {/if}
 

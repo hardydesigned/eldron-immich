@@ -9,6 +9,7 @@
   import { modalManager, toastManager } from '@immich/ui';
   import { mdiMapMarkerMultipleOutline } from '@mdi/js';
   import { t } from 'svelte-i18n';
+  import { isRestricted } from '$lib/utils/sc-restrictions';
 
   type Props = {
     menuItem?: boolean;
@@ -34,6 +35,8 @@
   };
 </script>
 
-{#if menuItem}
-  <MenuOption text={$t('change_location')} icon={mdiMapMarkerMultipleOutline} onClick={onAction} />
+{#if !isRestricted()}
+  {#if menuItem}
+    <MenuOption text={$t('change_location')} icon={mdiMapMarkerMultipleOutline} onClick={onAction} />
+  {/if}
 {/if}
